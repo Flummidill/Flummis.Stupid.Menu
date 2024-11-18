@@ -1326,23 +1326,6 @@ namespace iiMenu.Mods
                 blockDelay = Time.time + 0.1f;
             }
         }
-        
-        public static void BlocksGun()
-        {
-            if (rightGrab || Mouse.current.rightButton.isPressed)
-            {
-                var GunData = RenderGun();
-                RaycastHit Ray = GunData.Ray;
-                GameObject NewPointer = GunData.NewPointer;
-
-                if (rightTrigger > 0.5f || Mouse.current.leftButton.isPressed)
-                {
-                    BuilderPiece that = GetBlocks("snappiececolumn01")[0];
-                    BetaDropBlock(that, NewPointer.transform.position + new Vector3(0f, 1f, 0f), Quaternion.identity);
-                    RPCProtection();
-                }
-            }
-        }
 
         public static void NoRespawnBug()
         {
@@ -1473,17 +1456,6 @@ namespace iiMenu.Mods
             }
         }
 
-        public static void SpamGrabBlocks()
-        {
-            if (rightGrab)
-            {
-                BuilderPiece that = GetBlocks("snappiececolumn01")[0];
-                UnityEngine.Debug.Log(that.pieceType);
-                BetaDropBlock(that, GorillaTagger.Instance.rightHandTransform.position, GorillaTagger.Instance.rightHandTransform.rotation);
-                RPCProtection();
-            }
-        }
-
         public static void DestroyBug()
         {
             GameObject.Find("Floating Bug Holdable").transform.position = new Vector3(99999f, 99999f, 99999f);
@@ -1512,52 +1484,6 @@ namespace iiMenu.Mods
                     glider.OnHover(null, null);
                 }
             }
-        }
-
-        public static void DestroyBlocks()
-        {
-            foreach (BuilderPiece piece in GetPieces())
-            {
-                if (piece.gameObject.activeSelf)
-                    BuilderTable.instance.RequestRecyclePiece(piece, true, 2);
-            }
-        }
-
-        private static float dumbdelay = 0f;
-        public static void DestroyBlockGun()
-        {
-            if (rightGrab || Mouse.current.rightButton.isPressed)
-            {
-                var GunData = RenderGun();
-                RaycastHit Ray = GunData.Ray;
-                GameObject NewPointer = GunData.NewPointer;
-
-                if (rightTrigger > 0.5f || Mouse.current.leftButton.isPressed)
-                {
-                    BuilderPiece possibly = Ray.collider.GetComponentInParent<BuilderPiece>();
-                    if (possibly && Time.time > dumbdelay)
-                    {
-                        dumbdelay = Time.time + 0.1f;
-                        BuilderTable.instance.RequestRecyclePiece(possibly, true, 2);
-                        RPCProtection();
-                    }
-                }
-            }
-            //RPCProtection();
-        }
-
-        public static void BuildingBlockAura()
-        {
-            BuilderPiece that = GetBlocks("snappiececolumn01")[0];
-            BetaDropBlock(that, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f), UnityEngine.Random.Range(-0.5f, 1.5f), UnityEngine.Random.Range(-1.5f, 1.5f)), Quaternion.identity);
-            RPCProtection();
-        }
-
-        public static void RainBuildingBlocks()
-        {
-            BuilderPiece that = GetBlocks("snappiececolumn01")[0];
-            BetaDropBlock(that, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(UnityEngine.Random.Range(-3f, 3f), 4f, UnityEngine.Random.Range(-3f, 3f)), Quaternion.identity);
-            RPCProtection();
         }
 
         public static void SpazBug()
@@ -1627,13 +1553,6 @@ namespace iiMenu.Mods
             }
         }
 
-        public static void OrbitBlocks()
-        {
-            BuilderPiece that = GetBlocks("snappiececolumn01")[0];
-            BetaDropBlock(that, GorillaTagger.Instance.headCollider.transform.position + new Vector3(MathF.Cos((float)Time.frameCount / 30), 0f, MathF.Sin((float)Time.frameCount / 30)), Quaternion.identity);
-            RPCProtection();
-        }
-
         public static void RideBug()
         {
             TeleportPlayer(GameObject.Find("Floating Bug Holdable").transform.position);
@@ -1671,29 +1590,6 @@ namespace iiMenu.Mods
         {
             GameObject.Find("Cave Bat Holdable").GetComponent<ThrowableBug>().allowPlayerStealing = false;
         }
-
-        public static void SmallBuilding()
-        {
-            Patches.BuildPatch.isEnabled = true;
-        }
-
-        public static void BigBuilding()
-        {
-            Patches.BuildPatch.isEnabled = false;
-        }
-
-        public static void MultiGrab()
-        {
-            BuilderPieceInteractor.instance.handState[1] = BuilderPieceInteractor.HandState.Empty;
-            BuilderPieceInteractor.instance.heldPiece[1] = null;
-        }
-
-        /*
-        public static void PieceNameHelper()
-        {
-            if (BuilderPieceInteractor.instance.handState[1] == BuilderPieceInteractor.HandState.Grabbed)
-                NotifiLib.SendNotification(BuilderPieceInteractor.instance.heldPiece[1].name + " type " + BuilderPieceInteractor.instance.heldPiece[1].pieceType);
-        }*/
 
         public static int pieceId = -1;
         public static IEnumerator CreateGetPiece(int pieceType, Action<BuilderPiece> onComplete)
@@ -2050,10 +1946,20 @@ namespace iiMenu.Mods
 
             BuilderPiece bullet = null;
 
-            yield return CreateGetPiece(1925587737, piece =>
+            if (ShotgunUseCustomBlock)
             {
-                bullet = piece;
-            });
+                yield return CreateGetPiece(SelectedBlockID, piece =>
+                {
+                    bullet = piece;
+                });
+            }
+            else
+            {
+                yield return CreateGetPiece(1925587737, piece =>
+                {
+                    bullet = piece;
+                });
+            }
             while (bullet == null)
             {
                 yield return null;
@@ -2065,23 +1971,6 @@ namespace iiMenu.Mods
             yield return null;
 
             isFiring = false;
-        }
-
-        private static bool lastgripcrap = false;
-        private static bool lasttrigcrap = false;
-        public static void Shotgun()
-        {
-            if (isFiring)
-                ControllerInputPoller.instance.leftControllerGripFloat = 1f;
-
-            if (rightGrab && !lastgripcrap)
-                CoroutineManager.RunCoroutine(CreateShotgun());
-
-            if (rightGrab && (rightTrigger > 0.5f && !lasttrigcrap))
-                CoroutineManager.RunCoroutine(FireShotgun());
-
-            lastgripcrap = rightGrab;
-            lasttrigcrap = rightTrigger > 0.5f;
         }
 
         public static void SlowMonsters()
@@ -2188,16 +2077,145 @@ namespace iiMenu.Mods
             return blocks;
         }
 
-        public static void GrabBallistas()
+        private static string SelectedBlockName = null;
+        private static int SelectedBlockID = 0;
+        public static void SelectBlockGun()
         {
-            if (rightGrab && Time.time > blockDelay)
+            if (rightGrab || Mouse.current.rightButton.isPressed)
             {
-                blockDelay = Time.time + 0.1f;
+                var GunData = RenderGun();
+                RaycastHit Ray = GunData.Ray;
+                GameObject NewPointer = GunData.NewPointer;
 
-                BuilderPiece door = GetBlocks("ballista")[0];
-                BuilderTable.instance.RequestCreatePiece(door.pieceType, GorillaTagger.Instance.rightHandTransform.position, GorillaTagger.Instance.rightHandTransform.rotation, door.materialType);
+                if (rightTrigger > 0.5f || Mouse.current.leftButton.isPressed)
+                {
+                    BuilderPiece possibly = Ray.collider.GetComponentInParent<BuilderPiece>();
+                    if (possibly)
+                    {
+                        SelectedBlockName = BuilderPieceInteractor.instance.heldPiece[1].name;
+                        SelectedBlockID = BuilderPieceInteractor.instance.heldPiece[1].pieceType;
+                    }
+                }
+            }
+        }
+
+        public static bool ShotgunUseCustomBlock = false;
+        public static void EnableUseSelectedBlockForShotgun()
+        {
+            ShotgunUseCustomBlock = true;
+
+        }
+
+        public static void DisableUseSelectedBlockForShotgun()
+        {
+            ShotgunUseCustomBlock = false;
+
+        }
+
+
+        private static bool lastgripcrap = false;
+        private static bool lasttrigcrap = false;
+        public static void Shotgun()
+        {
+            if (isFiring)
+                ControllerInputPoller.instance.leftControllerGripFloat = 1f;
+
+            if (rightGrab && !lastgripcrap)
+                CoroutineManager.RunCoroutine(CreateShotgun());
+
+            if (rightGrab && (rightTrigger > 0.5f && !lasttrigcrap))
+                CoroutineManager.RunCoroutine(FireShotgun());
+
+            lastgripcrap = rightGrab;
+            lasttrigcrap = rightTrigger > 0.5f;
+        }
+
+        public static void DestroyBlocks()
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                foreach (BuilderPiece piece in GetPieces())
+                {
+                    if (piece.gameObject.activeSelf)
+                        BuilderTable.instance.RequestRecyclePiece(piece, true, 2);
+                }
+            }
+            else { NotifiLib.SendNotification("<color=grey>[</color><color=red>ERROR</color><color=grey>]</color> <color=white>You are not master client.</color>"); }
+        }
+
+        private static float dumbdelay = 0f;
+        public static void DestroyBlockGun()
+        {
+            if (rightGrab || Mouse.current.rightButton.isPressed)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    var GunData = RenderGun();
+                    RaycastHit Ray = GunData.Ray;
+                    GameObject NewPointer = GunData.NewPointer;
+
+                    if (rightTrigger > 0.5f || Mouse.current.leftButton.isPressed)
+                    {
+                        BuilderPiece possibly = Ray.collider.GetComponentInParent<BuilderPiece>();
+                        if (possibly && Time.time > dumbdelay)
+                        {
+                            dumbdelay = Time.time + 0.1f;
+                            BuilderTable.instance.RequestRecyclePiece(possibly, true, 2);
+                            RPCProtection();
+                        }
+                    }
+                }
+                else { NotifiLib.SendNotification("<color=grey>[</color><color=red>ERROR</color><color=grey>]</color> <color=white>You are not master client.</color>"); }
+            }
+        }
+
+        public static void SpamGrabBlocks()
+        {
+            if (rightGrab)
+            {
+                BuilderPiece that = GetBlocks(SelectedBlockName)[0];
+                UnityEngine.Debug.Log(that.pieceType);
+                BetaDropBlock(that, GorillaTagger.Instance.rightHandTransform.position, GorillaTagger.Instance.rightHandTransform.rotation);
                 RPCProtection();
             }
+        }
+
+        public static void BlocksGun()
+        {
+            if (rightGrab || Mouse.current.rightButton.isPressed)
+            {
+                var GunData = RenderGun();
+                RaycastHit Ray = GunData.Ray;
+                GameObject NewPointer = GunData.NewPointer;
+
+                if (rightTrigger > 0.5f || Mouse.current.leftButton.isPressed)
+                {
+                    BuilderPiece that = GetBlocks(SelectedBlockName)[0];
+                    BetaDropBlock(that, NewPointer.transform.position + new Vector3(0f, 1f, 0f), Quaternion.identity);
+                    RPCProtection();
+                }
+            }
+        }
+
+        public static void OrbitBlocks()
+        {
+            BuilderPiece that = GetBlocks(SelectedBlockName)[0];
+            BetaDropBlock(that, GorillaTagger.Instance.headCollider.transform.position + new Vector3(MathF.Cos((float)Time.frameCount / 30), 0f, MathF.Sin((float)Time.frameCount / 30)), Quaternion.identity);
+            RPCProtection();
+        }
+
+        public static void BuildingBlockAura()
+        {
+            BuilderPiece that = GetBlocks(SelectedBlockName)[0];
+            BetaDropBlock(that, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f), UnityEngine.Random.Range(-0.5f, 1.5f), UnityEngine.Random.Range(-1.5f, 1.5f)), Quaternion.identity);
+            RPCProtection();
+        }
+
+        public static void RainBuildingBlocks()
+        {
+            BuilderPiece that = GetBlocks(SelectedBlockName)[0];
+            BetaDropBlock(that, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(UnityEngine.Random.Range(-3f, 3f), 4f, UnityEngine.Random.Range(-3f, 3f)), Quaternion.identity);
+            RPCProtection();
         }
 
         private static List<BuilderPiece> potentialgrabbedpieces = new List<BuilderPiece> { };
@@ -2232,6 +2250,40 @@ namespace iiMenu.Mods
                     BuilderTable.instance.RequestDropPiece(piece, GorillaTagger.Instance.rightHandTransform.position, GorillaTagger.Instance.rightHandTransform.rotation, new Vector3(UnityEngine.Random.Range(-19f, 19f), UnityEngine.Random.Range(-19f, 19f), UnityEngine.Random.Range(-19f, 19f)), new Vector3(UnityEngine.Random.Range(-19f, 19f), UnityEngine.Random.Range(-19f, 19f), UnityEngine.Random.Range(-19f, 19f)));
                 }
                 potentialgrabbedpieces.Clear();
+                RPCProtection();
+            }
+        }
+
+        public static void SmallBuilding()
+        {
+            Patches.BuildPatch.isEnabled = true;
+        }
+
+        public static void BigBuilding()
+        {
+            Patches.BuildPatch.isEnabled = false;
+        }
+
+        public static void MultiGrab()
+        {
+            BuilderPieceInteractor.instance.handState[1] = BuilderPieceInteractor.HandState.Empty;
+            BuilderPieceInteractor.instance.heldPiece[1] = null;
+        }
+
+        public static void BuildingBlockInfo()
+        {
+            if (BuilderPieceInteractor.instance.handState[1] == BuilderPieceInteractor.HandState.Grabbed)
+                NotifiLib.SendNotification("Name \"" + BuilderPieceInteractor.instance.heldPiece[1].name + "\"" + "\n" + "ID \"" + BuilderPieceInteractor.instance.heldPiece[1].pieceType + "\"");
+        }
+
+        public static void GrabBallistas()
+        {
+            if (rightGrab && Time.time > blockDelay)
+            {
+                blockDelay = Time.time + 0.1f;
+
+                BuilderPiece door = GetBlocks("ballista")[0];
+                BuilderTable.instance.RequestCreatePiece(door.pieceType, GorillaTagger.Instance.rightHandTransform.position, GorillaTagger.Instance.rightHandTransform.rotation, door.materialType);
                 RPCProtection();
             }
         }

@@ -606,13 +606,7 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "Break Bug", enableMethod =() => Fun.BreakBug(), disableMethod =() => Fun.FixBug(), toolTip = "Makes the bug ungrabbable."},
                 new ButtonInfo { buttonText = "Break Bat", enableMethod =() => Fun.BreakBat(), disableMethod =() => Fun.FixBat(), toolTip = "Makes the bat ungrabbable."},
 
-                new ButtonInfo { buttonText = "Small Building", enableMethod =() => Fun.SmallBuilding(), disableMethod =() => Fun.BigBuilding(), toolTip = "Lets you build in the attic while small."},
-                new ButtonInfo { buttonText = "Multi Grab", method =() => Fun.MultiGrab(), toolTip = "Lets you grab multiple objects."},
-
-                new ButtonInfo { buttonText = "Shotgun <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.Shotgun(), toolTip = "Spawns you a shotgun when you press <color=green>grip</color>."},
-
                 new ButtonInfo { buttonText = "Grab Ballistas <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.GrabBallistas(), toolTip = "Grabs ballistas when holding <color=green>G</color>."},
-                new ButtonInfo { buttonText = "Grab All Nearby <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.GrabAllBlocksNearby(), toolTip = "Grabs every nearby building block when holding <color=green>G</color>."},
 
                 new ButtonInfo { buttonText = "Spaz All Moles", method =() => Fun.SpazMoleMachines(), toolTip = "Gives the moles a seizure."},
                 new ButtonInfo { buttonText = "Auto Start Moles", method =() => Fun.AutoStartMoles(), toolTip = "Automatically starts the mole games."},
@@ -624,14 +618,29 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "Grab Beach Ball <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.GrabBeachBall(), toolTip = "Forces the beach ball into your hand when holding <color=green>grip</color>." },
                 new ButtonInfo { buttonText = "Grab Balloons <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.GrabBalloons(), toolTip = "Forces every single balloon cosmetic into your hand when holding <color=green>grip</color>." },
                 new ButtonInfo { buttonText = "Grab Gliders <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.GrabGliders(), toolTip = "Forces the bug into your hand when holding <color=green>grip</color>." },
+
+                new ButtonInfo { buttonText = "Select Building Block Gun", method =() => Fun.SelectBlockGun(), toolTip = "Select a custom Building Block for other Mods to use." },
+                new ButtonInfo { buttonText = "Use Selected Block for Shotgun", enableMethod =() => Fun.EnableUseSelectedBlockForShotgun(), disableMethod =() => Fun.DisableUseSelectedBlockForShotgun(), toolTip = "Enable/Disable if you want to use the Selected Block from \"Select Building Block Gun\" as the Building Block Shotgun Bullets"},
+
+                new ButtonInfo { buttonText = "Building Block Shotgun <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.Shotgun(), toolTip = "Spawns you a shotgun when you press <color=green>grip</color>."},
+                new ButtonInfo { buttonText = "Destroy All Building Blocks", method =() => Fun.DestroyBlocks(), toolTip = "Shreds every building block." },
+                new ButtonInfo { buttonText = "Destroy Building Block Gun", method =() => Fun.DestroyBlockGun(), toolTip = "Shreds whatever building block your hand desires." },
                 new ButtonInfo { buttonText = "Grab Building Blocks <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.SpamGrabBlocks(), toolTip = "Forces the building block into your hand when holding <color=green>grip</color>." },
+                new ButtonInfo { buttonText = "Building Block Gun", method =() => Fun.BlocksGun(), toolTip = "Moves the building blocks to wherever your hand desires." },
+                new ButtonInfo { buttonText = "Orbit Building Blocks", method =() => Fun.OrbitBlocks(), toolTip = "Orbits the building blocks around you." },
+                new ButtonInfo { buttonText = "Building Block Aura", method =() => Fun.BuildingBlockAura(), toolTip = "Moves the building blocks around you at random positions." },
+                new ButtonInfo { buttonText = "Rain Building Blocks", method =() => Fun.RainBuildingBlocks(), toolTip = "Makes the building blocks fall around you like rain." },
+                new ButtonInfo { buttonText = "Grab Nearby Building Blocks<color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.GrabAllBlocksNearby(), toolTip = "Grabs every nearby building block when holding <color=green>G</color>."},
+                new ButtonInfo { buttonText = "Small Building", enableMethod =() => Fun.SmallBuilding(), disableMethod =() => Fun.BigBuilding(), toolTip = "Lets you build in the attic while small."},
+                new ButtonInfo { buttonText = "Multi Building Block Grab", method =() => Fun.MultiGrab(), toolTip = "Lets you grab multiple Building Blocks."},
+
+                new ButtonInfo { buttonText = "Building Block Info", method =() => Fun.BuildingBlockInfo(), toolTip = "Tells you Information about the Building Block in your hand."},
 
                 new ButtonInfo { buttonText = "Bug Gun", method =() => Fun.BugGun(), toolTip = "Moves the bug to wherever your hand desires." },
                 new ButtonInfo { buttonText = "Bat Gun", method =() => Fun.BatGun(), toolTip = "Moves the bat to wherever your hand desires." },
                 new ButtonInfo { buttonText = "Beach Ball Gun", method =() => Fun.BeachBallGun(), toolTip = "Moves the beach ball to wherever your hand desires." },
                 new ButtonInfo { buttonText = "Balloon Gun", method =() => Fun.BalloonGun(), toolTip = "Moves every single balloon cosmetic to wherever your hand desires." },
                 new ButtonInfo { buttonText = "Glider Gun", method =() => Fun.GliderGun(), toolTip = "Moves the gliders to wherever your hand desires." },
-                new ButtonInfo { buttonText = "Building Block Gun", method =() => Fun.BlocksGun(), toolTip = "Moves the building blocks to wherever your hand desires." },
 
                 new ButtonInfo { buttonText = "Spaz Bug", method =() => Fun.SpazBug(), toolTip = "Gives the bug a seizure." },
                 new ButtonInfo { buttonText = "Spaz Bat", method =() => Fun.SpazBat(), toolTip = "Gives the bat a seizure." },
@@ -644,9 +653,6 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "Orbit Beach Ball", method =() => Fun.BeachBallHalo(), toolTip = "Orbits the beach ball around you." },
                 new ButtonInfo { buttonText = "Orbit Balloons", method =() => Fun.OrbitBalloons(), toolTip = "Orbits the balloons around you." },
                 new ButtonInfo { buttonText = "Orbit Gliders", method =() => Fun.OrbitGliders(), toolTip = "Orbits the gliders around you." },
-                new ButtonInfo { buttonText = "Orbit Building Blocks", method =() => Fun.OrbitBlocks(), toolTip = "Orbits the building blocks around you." },
-                new ButtonInfo { buttonText = "Rain Building Blocks", method =() => Fun.RainBuildingBlocks(), toolTip = "Makes the building blocks fall around you like rain." },
-                new ButtonInfo { buttonText = "Building Block Aura", method =() => Fun.BuildingBlockAura(), toolTip = "Moves the building blocks around you at random positions." },
 
                 new ButtonInfo { buttonText = "Ride Bug", method =() => Fun.RideBug(), toolTip = "Repeatedly teleports you on top of the bug." },
                 new ButtonInfo { buttonText = "Ride Bat", method =() => Fun.RideBat(), toolTip = "Repeatedly teleports you on top of the bat." },
@@ -781,9 +787,6 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "Unguardian Self", method =() => Overpowered.UnguardianSelf(), isTogglable = false, toolTip = "Removes you from the guardian position."},
                 new ButtonInfo { buttonText = "Unguardian Gun", method =() => Overpowered.UnguardianGun(), toolTip = "Removes whoever your hand desires from the guardian position."},
                 new ButtonInfo { buttonText = "Unguardian All", method =() => Overpowered.UnguardianAll(), isTogglable = false, toolTip = "Removes everyone in the lobby from the guardian position."},
-
-                new ButtonInfo { buttonText = "Destroy Building Block Gun", method =() => Fun.DestroyBlockGun(), toolTip = "Shreds whatever building block your hand desires." },
-                new ButtonInfo { buttonText = "Destroy Building Blocks", method =() => Fun.DestroyBlocks(), toolTip = "Shreds every building block." },
 
                 new ButtonInfo { buttonText = "Spaz Targets", method =() => Overpowered.TargetSpam(), toolTip = "Gives the targets a seizure."},
 
@@ -1038,7 +1041,7 @@ namespace iiMenu.Menu
             },
 
             new ButtonInfo[] { // Temporary Category [29]
-
+                
             },
 
             new ButtonInfo[] { // Soundboard (in settings) [30]
