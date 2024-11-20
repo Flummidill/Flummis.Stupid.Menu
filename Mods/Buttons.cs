@@ -619,7 +619,7 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "Grab Balloons <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.GrabBalloons(), toolTip = "Forces every single balloon cosmetic into your hand when holding <color=green>grip</color>." },
                 new ButtonInfo { buttonText = "Grab Gliders <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.GrabGliders(), toolTip = "Forces the bug into your hand when holding <color=green>grip</color>." },
 
-                new ButtonInfo { buttonText = "Select Building Block Gun", method =() => Fun.SelectBlockGun(), toolTip = "Select a custom Building Block for other Mods to use." },
+                new ButtonInfo { buttonText = "Select Building Block", method =() => Fun.SelectBlock(), toolTip = "Grab the Building Block you want to use for other Mods." },
                 new ButtonInfo { buttonText = "Use Selected Block for Shotgun", enableMethod =() => Fun.EnableUseSelectedBlockForShotgun(), disableMethod =() => Fun.DisableUseSelectedBlockForShotgun(), toolTip = "Enable/Disable if you want to use the Selected Block from \"Select Building Block Gun\" as the Building Block Shotgun Bullets"},
 
                 new ButtonInfo { buttonText = "Building Block Shotgun <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.Shotgun(), toolTip = "Spawns you a shotgun when you press <color=green>grip</color>."},

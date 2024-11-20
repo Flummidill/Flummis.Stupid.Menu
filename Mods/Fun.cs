@@ -2081,25 +2081,12 @@ namespace iiMenu.Mods
 
         private static string SelectedBlockName = null;
         private static int SelectedBlockID = 0;
-        public static void SelectBlockGun()
+        public static void SelectBlock()
         {
-            if (rightGrab || Mouse.current.rightButton.isPressed)
+            if (BuilderPieceInteractor.instance.handState[1] == BuilderPieceInteractor.HandState.Grabbed)
             {
-                var GunData = RenderGun();
-                RaycastHit Ray = GunData.Ray;
-                GameObject NewPointer = GunData.NewPointer;
-
-                if (rightTrigger > 0.5f || Mouse.current.leftButton.isPressed)
-                {
-                    BuilderPiece possibly = Ray.collider.GetComponentInParent<BuilderPiece>();
-                    if (possibly)
-                    {
-                        SelectedBlockName = BuilderPieceInteractor.instance.heldPiece[1].name;
-                        SelectedBlockID = BuilderPieceInteractor.instance.heldPiece[1].pieceType;
-
-                        Console.WriteLine(SelectedBlockName + " / " + SelectedBlockID);
-                    }
-                }
+                SelectedBlockName = BuilderPieceInteractor.instance.heldPiece[1].name;
+                SelectedBlockID = BuilderPieceInteractor.instance.heldPiece[1].pieceType;
             }
         }
 
