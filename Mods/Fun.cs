@@ -2094,13 +2094,11 @@ namespace iiMenu.Mods
         public static void EnableUseSelectedBlockForShotgun()
         {
             ShotgunUseCustomBlock = true;
-
         }
 
         public static void DisableUseSelectedBlockForShotgun()
         {
             ShotgunUseCustomBlock = false;
-
         }
 
 
