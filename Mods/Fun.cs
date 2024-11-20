@@ -1939,7 +1939,7 @@ namespace iiMenu.Mods
         {
             isFiring = true;
 
-            Console.WriteLine(SelectedBlockName + " / " + SelectedBlockID);
+            Console.WriteLine("Selected Block ID: " + SelectedBlockID);
 
             if (!File.Exists("iisStupidMenu/shotgun.wav"))
                 LoadSoundFromURL("https://github.com/iiDk-the-actual/ModInfo/raw/refs/heads/main/shotgun.wav", "shotgun.wav");
@@ -2064,13 +2064,13 @@ namespace iiMenu.Mods
             }
         }
 
-        public static List<BuilderPiece> GetBlocks(string blockname)
+        public static List<BuilderPiece> GetBlocks(int blockID)
         {
             List<BuilderPiece> blocks = new List<BuilderPiece> { };
 
             foreach (BuilderPiece lol in GetPiecesFiltered())
             {
-                if (lol.name.ToLower().Contains(blockname))
+                if (lol.pieceType == blockID)
                 {
                     blocks.Add(lol);
                 }
@@ -2079,14 +2079,14 @@ namespace iiMenu.Mods
             return blocks;
         }
 
-        private static string SelectedBlockName = null;
-        private static int SelectedBlockID = 0;
+        private static int SelectedBlockID = -1218055069;
         public static void SelectBlock()
         {
             if (BuilderPieceInteractor.instance.handState[1] == BuilderPieceInteractor.HandState.Grabbed)
             {
-                SelectedBlockName = BuilderPieceInteractor.instance.heldPiece[1].name;
                 SelectedBlockID = BuilderPieceInteractor.instance.heldPiece[1].pieceType;
+
+                Console.WriteLine("Selected Block ID: " + SelectedBlockID);
             }
         }
 
@@ -2164,9 +2164,9 @@ namespace iiMenu.Mods
         {
             if (rightGrab)
             {
-                Console.WriteLine(SelectedBlockName + " / " + SelectedBlockID);
+                Console.WriteLine("Selected Block ID: " + SelectedBlockID);
 
-                BuilderPiece that = GetBlocks(SelectedBlockName)[0];
+                BuilderPiece that = GetBlocks(SelectedBlockID)[0];
                 UnityEngine.Debug.Log(that.pieceType);
                 BetaDropBlock(that, GorillaTagger.Instance.rightHandTransform.position, GorillaTagger.Instance.rightHandTransform.rotation);
                 RPCProtection();
@@ -2183,9 +2183,9 @@ namespace iiMenu.Mods
 
                 if (rightTrigger > 0.5f || Mouse.current.leftButton.isPressed)
                 {
-                    Console.WriteLine(SelectedBlockName + " / " + SelectedBlockID);
+                    Console.WriteLine("Selected Block ID: " + SelectedBlockID);
 
-                    BuilderPiece that = GetBlocks(SelectedBlockName)[0];
+                    BuilderPiece that = GetBlocks(SelectedBlockID)[0];
                     BetaDropBlock(that, NewPointer.transform.position + new Vector3(0f, 1f, 0f), Quaternion.identity);
                     RPCProtection();
                 }
@@ -2194,27 +2194,27 @@ namespace iiMenu.Mods
 
         public static void OrbitBlocks()
         {
-            Console.WriteLine(SelectedBlockName + " / " + SelectedBlockID);
+            Console.WriteLine("Selected Block ID: " + SelectedBlockID);
 
-            BuilderPiece that = GetBlocks(SelectedBlockName)[0];
+            BuilderPiece that = GetBlocks(SelectedBlockID)[0];
             BetaDropBlock(that, GorillaTagger.Instance.headCollider.transform.position + new Vector3(MathF.Cos((float)Time.frameCount / 30), 0f, MathF.Sin((float)Time.frameCount / 30)), Quaternion.identity);
             RPCProtection();
         }
 
         public static void BuildingBlockAura()
         {
-            Console.WriteLine(SelectedBlockName + " / " + SelectedBlockID);
+            Console.WriteLine("Selected Block ID: " + SelectedBlockID);
 
-            BuilderPiece that = GetBlocks(SelectedBlockName)[0];
+            BuilderPiece that = GetBlocks(SelectedBlockID)[0];
             BetaDropBlock(that, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f), UnityEngine.Random.Range(-0.5f, 1.5f), UnityEngine.Random.Range(-1.5f, 1.5f)), Quaternion.identity);
             RPCProtection();
         }
 
         public static void RainBuildingBlocks()
         {
-            Console.WriteLine(SelectedBlockName + " / " + SelectedBlockID);
+            Console.WriteLine("Selected Block ID: " + SelectedBlockID);
 
-            BuilderPiece that = GetBlocks(SelectedBlockName)[0];
+            BuilderPiece that = GetBlocks(SelectedBlockID)[0];
             BetaDropBlock(that, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(UnityEngine.Random.Range(-3f, 3f), 4f, UnityEngine.Random.Range(-3f, 3f)), Quaternion.identity);
             RPCProtection();
         }
@@ -2275,18 +2275,6 @@ namespace iiMenu.Mods
         {
             if (BuilderPieceInteractor.instance.handState[1] == BuilderPieceInteractor.HandState.Grabbed)
                 NotifiLib.SendNotification("Name \"" + BuilderPieceInteractor.instance.heldPiece[1].name + "\"" + "\n" + "ID \"" + BuilderPieceInteractor.instance.heldPiece[1].pieceType + "\"");
-        }
-
-        public static void GrabBallistas()
-        {
-            if (rightGrab && Time.time > blockDelay)
-            {
-                blockDelay = Time.time + 0.1f;
-
-                BuilderPiece door = GetBlocks("ballista")[0];
-                BuilderTable.instance.RequestCreatePiece(door.pieceType, GorillaTagger.Instance.rightHandTransform.position, GorillaTagger.Instance.rightHandTransform.rotation, door.materialType);
-                RPCProtection();
-            }
         }
 
         /*

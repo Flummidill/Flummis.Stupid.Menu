@@ -606,8 +606,6 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "Break Bug", enableMethod =() => Fun.BreakBug(), disableMethod =() => Fun.FixBug(), toolTip = "Makes the bug ungrabbable."},
                 new ButtonInfo { buttonText = "Break Bat", enableMethod =() => Fun.BreakBat(), disableMethod =() => Fun.FixBat(), toolTip = "Makes the bat ungrabbable."},
 
-                new ButtonInfo { buttonText = "Grab Ballistas <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.GrabBallistas(), toolTip = "Grabs ballistas when holding <color=green>G</color>."},
-
                 new ButtonInfo { buttonText = "Spaz All Moles", method =() => Fun.SpazMoleMachines(), toolTip = "Gives the moles a seizure."},
                 new ButtonInfo { buttonText = "Auto Start Moles", method =() => Fun.AutoStartMoles(), toolTip = "Automatically starts the mole games."},
                 new ButtonInfo { buttonText = "Auto Hit Moles", method =() => Fun.AutoHitMoles(), toolTip = "Hits all of the moles automatically."},
