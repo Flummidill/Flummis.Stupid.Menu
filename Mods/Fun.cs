@@ -1939,6 +1939,8 @@ namespace iiMenu.Mods
         {
             isFiring = true;
 
+            Console.WriteLine(SelectedBlockName + " / " + SelectedBlockID);
+
             if (!File.Exists("iisStupidMenu/shotgun.wav"))
                 LoadSoundFromURL("https://github.com/iiDk-the-actual/ModInfo/raw/refs/heads/main/shotgun.wav", "shotgun.wav");
 
@@ -2094,6 +2096,8 @@ namespace iiMenu.Mods
                     {
                         SelectedBlockName = BuilderPieceInteractor.instance.heldPiece[1].name;
                         SelectedBlockID = BuilderPieceInteractor.instance.heldPiece[1].pieceType;
+
+                        Console.WriteLine(SelectedBlockName + " / " + SelectedBlockID);
                     }
                 }
             }
@@ -2173,6 +2177,8 @@ namespace iiMenu.Mods
         {
             if (rightGrab)
             {
+                Console.WriteLine(SelectedBlockName + " / " + SelectedBlockID);
+
                 BuilderPiece that = GetBlocks(SelectedBlockName)[0];
                 UnityEngine.Debug.Log(that.pieceType);
                 BetaDropBlock(that, GorillaTagger.Instance.rightHandTransform.position, GorillaTagger.Instance.rightHandTransform.rotation);
@@ -2190,6 +2196,8 @@ namespace iiMenu.Mods
 
                 if (rightTrigger > 0.5f || Mouse.current.leftButton.isPressed)
                 {
+                    Console.WriteLine(SelectedBlockName + " / " + SelectedBlockID);
+
                     BuilderPiece that = GetBlocks(SelectedBlockName)[0];
                     BetaDropBlock(that, NewPointer.transform.position + new Vector3(0f, 1f, 0f), Quaternion.identity);
                     RPCProtection();
@@ -2199,6 +2207,8 @@ namespace iiMenu.Mods
 
         public static void OrbitBlocks()
         {
+            Console.WriteLine(SelectedBlockName + " / " + SelectedBlockID);
+
             BuilderPiece that = GetBlocks(SelectedBlockName)[0];
             BetaDropBlock(that, GorillaTagger.Instance.headCollider.transform.position + new Vector3(MathF.Cos((float)Time.frameCount / 30), 0f, MathF.Sin((float)Time.frameCount / 30)), Quaternion.identity);
             RPCProtection();
@@ -2206,6 +2216,8 @@ namespace iiMenu.Mods
 
         public static void BuildingBlockAura()
         {
+            Console.WriteLine(SelectedBlockName + " / " + SelectedBlockID);
+
             BuilderPiece that = GetBlocks(SelectedBlockName)[0];
             BetaDropBlock(that, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(UnityEngine.Random.Range(-1.5f, 1.5f), UnityEngine.Random.Range(-0.5f, 1.5f), UnityEngine.Random.Range(-1.5f, 1.5f)), Quaternion.identity);
             RPCProtection();
@@ -2213,6 +2225,8 @@ namespace iiMenu.Mods
 
         public static void RainBuildingBlocks()
         {
+            Console.WriteLine(SelectedBlockName + " / " + SelectedBlockID);
+
             BuilderPiece that = GetBlocks(SelectedBlockName)[0];
             BetaDropBlock(that, GorillaTagger.Instance.offlineVRRig.transform.position + new Vector3(UnityEngine.Random.Range(-3f, 3f), 4f, UnityEngine.Random.Range(-3f, 3f)), Quaternion.identity);
             RPCProtection();
