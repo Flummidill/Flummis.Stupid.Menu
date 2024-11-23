@@ -43,7 +43,7 @@ namespace iiMenu.Mods.Spammers
             }
             List<ButtonInfo> soundbuttons = new List<ButtonInfo> { new ButtonInfo { buttonText = "Exit Soundboard", method = () => Settings.EnableFun(), isTogglable = false, toolTip = "Returns you back to the fun mods." } };
             int index = 0;
-            string[] files = Directory.GetFiles("iisStupidMenu/Sounds");
+            string[] files = Directory.GetFiles("iisStupidMenu/Sounds", "*.*", SearchOption.AllDirectories);
             foreach (string file in files)
             {
                 index++;
