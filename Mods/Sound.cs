@@ -68,6 +68,7 @@ namespace iiMenu.Mods.Spammers
                     }
                 }
             }
+            soundbuttons.Add(new ButtonInfo { buttonText = "-------------------------------", method = () => Settings.DoNothing(), isTogglable = false, toolTip = "Just a Seperator." });
             soundbuttons.Add(new ButtonInfo { buttonText = "Stop All Sounds", method = () => FixMicrophone(), isTogglable = false, toolTip = "Stops all currently playing sounds." });
             soundbuttons.Add(new ButtonInfo { buttonText = "Open Sound Folder", method = () => OpenSoundFolder(), isTogglable = false, toolTip = "Opens a folder containing all of your sounds." });
             soundbuttons.Add(new ButtonInfo { buttonText = "Reload Sounds", method = () => LoadSoundboard(), isTogglable = false, toolTip = "Reloads all of your sounds." });
