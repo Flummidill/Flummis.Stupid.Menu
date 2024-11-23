@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using Valve.VR;
 using static iiMenu.Menu.Main;
@@ -19,10 +20,15 @@ namespace iiMenu.Mods.Spammers
 {
     public class Sound
     {
+
         public static bool LoopAudio = false;
         public static int BindMode = 0;
-        public static void LoadSoundboard()
+
+        public static void LoadSoundboard(string C_Folder)
         {
+
+            List<ButtonInfo> soundbuttons = new List<ButtonInfo>();
+
             buttonsType = 18;
             pageNumber = 0;
             if (!Directory.Exists("iisStupidMenu"))
@@ -41,16 +47,53 @@ namespace iiMenu.Mods.Spammers
                     enabledSounds.Add(binfo.overlapText);
                 }
             }
-            List<ButtonInfo> soundbuttons = new List<ButtonInfo> { new ButtonInfo { buttonText = "Exit Soundboard", method = () => Settings.EnableFun(), isTogglable = false, toolTip = "Returns you back to the fun mods." } };
+
+            if (C_Folder == "")
+            {
+
+                soundbuttons.Add( new ButtonInfo { buttonText = "Exit Soundboard", method = () => Settings.EnableFun(), isTogglable = false, toolTip = "Returns you back to the fun mods." } );
+
+            } else {
+
+                soundbuttons.Add(new ButtonInfo { buttonText = "Exit " + C_Folder.Substring(C_Folder.LastIndexOf("/") + 1), method = () => LoadSoundboard(C_Folder.Substring(0, C_Folder.LastIndexOf("/") + 1)), isTogglable = false, toolTip = "Returns you back to the previos Folder." } );
+
+            }
+
+            soundbuttons.Add(new ButtonInfo { buttonText = "-------------------------------", method = () => Settings.DoNothing(), isTogglable = false, toolTip = "Just a Seperator." });
+
             int index = 0;
-            string[] files = Directory.GetFiles("iisStupidMenu/Sounds", "*.*", SearchOption.AllDirectories);
+            string[] folders = null;
+            string[] files = null;
+
+            folders = Directory.GetDirectories("iisStupidMenu\\Sounds\\" + C_Folder);
+            files = Directory.GetFiles("iisStupidMenu\\Sounds\\" + C_Folder);
+
+            if (C_Folder == "")
+            {
+                foreach (string folder in folders)
+                {
+                    index++;
+
+                    string folderName = folder.Substring(21 + C_Folder.Length).Replace("_", " ").Replace("/", "");
+
+                    Console.WriteLine("Folders - Item" + index.ToString() + ": " + folderName);
+
+                    soundbuttons.Add(new ButtonInfo { buttonText = "SoundboardFolder" + index.ToString(), overlapText = folderName, method = () => LoadSoundboard(folderName), isTogglable = false, toolTip = "Opens the " + folderName + " Folder." });
+                }
+            }
+
             foreach (string file in files)
             {
                 index++;
-                string FileName = file.Replace("\\", "/").Substring(21);
+
+                string FileName = file.Replace("\\", "/");
+                FileName = FileName.Substring(FileName.LastIndexOf("/") + 1);
+
+                Console.WriteLine("Sounds - Item" + index.ToString() + ": " + FileName);
+
                 if (BindMode > 0)
                 {
-                    string soundName = RemoveFileExtension(FileName).Replace("_", " ");
+                    string soundName = FileName.Replace("_", " ");
                     bool enabled = enabledSounds.Contains(soundName);
                     soundbuttons.Add(new ButtonInfo { buttonText = "SoundboardSound" + index.ToString(), overlapText = soundName, method = () => PrepareBindAudio(file.Substring(14)), disableMethod = () => FixMicrophone(), enabled = enabled, toolTip = "Plays \"" + RemoveFileExtension(FileName).Replace("_", " ") + "\" through your microphone." });
                     
@@ -71,7 +114,7 @@ namespace iiMenu.Mods.Spammers
             soundbuttons.Add(new ButtonInfo { buttonText = "-------------------------------", method = () => Settings.DoNothing(), isTogglable = false, toolTip = "Just a Seperator." });
             soundbuttons.Add(new ButtonInfo { buttonText = "Stop All Sounds", method = () => FixMicrophone(), isTogglable = false, toolTip = "Stops all currently playing sounds." });
             soundbuttons.Add(new ButtonInfo { buttonText = "Open Sound Folder", method = () => OpenSoundFolder(), isTogglable = false, toolTip = "Opens a folder containing all of your sounds." });
-            soundbuttons.Add(new ButtonInfo { buttonText = "Reload Sounds", method = () => LoadSoundboard(), isTogglable = false, toolTip = "Reloads all of your sounds." });
+            soundbuttons.Add(new ButtonInfo { buttonText = "Reload Sounds", method = () => LoadSoundboard(""), isTogglable = false, toolTip = "Reloads all of your sounds." });
             soundbuttons.Add(new ButtonInfo { buttonText = "Get More Sounds", method = () => LoadSoundLibrary(), isTogglable = false, toolTip = "Opens a public audio library, where you can download your own sounds." });
             Buttons.buttons[18] = soundbuttons.ToArray();
         }
@@ -82,7 +125,7 @@ namespace iiMenu.Mods.Spammers
             pageNumber = 0;
             string library = GetHttp("https://github.com/iiDk-the-actual/ModInfo/raw/main/SoundLibrary.txt");
             string[] audios = AlphabetizeNoSkip(library.Split("\n"));
-            List<ButtonInfo> soundbuttons = new List<ButtonInfo> { new ButtonInfo { buttonText = "Exit Sound Library", method = () => LoadSoundboard(), isTogglable = false, toolTip = "Returns you back to the soundboard." } };
+            List<ButtonInfo> soundlibbuttons = new List<ButtonInfo> { new ButtonInfo { buttonText = "Exit Sound Library", method = () => LoadSoundboard(""), isTogglable = false, toolTip = "Returns you back to the soundboard." } };
             int index = 0;
             foreach (string audio in audios)
             {
@@ -90,10 +133,10 @@ namespace iiMenu.Mods.Spammers
                 {
                     index++;
                     string[] Data = audio.Split(";");
-                    soundbuttons.Add(new ButtonInfo { buttonText = "SoundboardDownload" + index.ToString(), overlapText = Data[0], method = () => DownloadSound(Data[0], Data[1]), isTogglable = false, toolTip = "Downloads " + Data[0] + " to your sound library." });
+                    soundlibbuttons.Add(new ButtonInfo { buttonText = "SoundboardDownload" + index.ToString(), overlapText = Data[0], method = () => DownloadSound(Data[0], Data[1]), isTogglable = false, toolTip = "Downloads " + Data[0] + " to your sound library." });
                 }
             }
-            Buttons.buttons[26] = soundbuttons.ToArray();
+            Buttons.buttons[26] = soundlibbuttons.ToArray();
         }
 
         public static void DownloadSound(string name, string url)
