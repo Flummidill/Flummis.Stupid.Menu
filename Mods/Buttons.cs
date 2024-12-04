@@ -1095,7 +1095,7 @@ namespace iiMenu.Menu
             new ButtonInfo[] { // Overpowered (in Settings) [31]
                 new ButtonInfo { buttonText = "Exit Overpowered Settings", method =() => Settings.EnableSettings(), isTogglable = false, toolTip = "Returns you back to the settings menu."}
 
-                // What a lone category
+                // What a lone category :-(
             },
         };
     }
