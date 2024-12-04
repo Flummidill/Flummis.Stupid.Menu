@@ -731,7 +731,6 @@ namespace iiMenu.Mods
                         whoCopy = null;
                         SetTick(1000f);
                         NotifiLib.SendNotification("<color=grey>[</color><color=red>ERROR</color><color=grey>]</color> <color=white>You have been kicked for sending too many RPCs, you will reconnect shortly.</color>");
-                        rejRoom = ihavediahrrea;
                     }
                     if (GetPlayerFromVRRig(whoCopy) == null)
                     {
@@ -739,7 +738,6 @@ namespace iiMenu.Mods
                         whoCopy = null;
                         SetTick(1000f);
                         NotifiLib.SendNotification("<color=grey>[</color><color=green>SUCCESS</color><color=grey>]</color> <color=white>Player has been kicked!</color>");
-                        rejRoom = ihavediahrrea;
                     }
                 }
                 if ((rightTrigger > 0.5f || Mouse.current.leftButton.isPressed) && !isCopying)
