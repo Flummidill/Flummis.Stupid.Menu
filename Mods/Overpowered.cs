@@ -7,6 +7,7 @@ using iiMenu.Classes;
 using iiMenu.Notifications;
 using Photon.Pun;
 using Photon.Realtime;
+using Photon.Voice.PUN;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
