@@ -550,47 +550,6 @@ namespace iiMenu.Mods
         }
 
         private static float delaything = 0f;
-        public static void GuardianBlindGun()
-        {
-            if (GetGunInput(false))
-            {
-                var GunData = RenderGun();
-                RaycastHit Ray = GunData.Ray;
-                GameObject NewPointer = GunData.NewPointer;
-                
-                if (GetGunInput(true) && Time.time > delaything)
-                {
-                    VRRig possibly = Ray.collider.GetComponentInParent<VRRig>();
-                    if (possibly && possibly != GorillaTagger.Instance.offlineVRRig)
-                    {
-                        delaything = Time.time + 0.1f;
-                        RigManager.GetNetworkViewFromVRRig(possibly).SendRPC("GrabbedByPlayer", GetPlayerFromVRRig(possibly), new object[] { true, false, false });
-                        RigManager.GetNetworkViewFromVRRig(possibly).SendRPC("DroppedByPlayer", GetPlayerFromVRRig(possibly), new object[] { new Vector3(0f, float.NaN, 0f) });
-                    }
-                }
-            }
-        }
-
-        public static void GuardianBlindAll()
-        {
-            if (rightTrigger > 0.5f)
-            {
-                if (Time.time > delaything)
-                {
-                    delaything = Time.time + 0.1f;
-                    foreach (VRRig player in GorillaParent.instance.vrrigs)
-                    {
-                        RigManager.GetNetworkViewFromVRRig(player).SendRPC("GrabbedByPlayer", RpcTarget.Others, new object[] { true, false, false });
-                        RigManager.GetNetworkViewFromVRRig(player).SendRPC("DroppedByPlayer", RpcTarget.Others, new object[] { new Vector3(0f, float.NaN, 0f) });
-                    }
-                }
-            }
-        }
-
-        // Hi skids :3
-        // If you take this code you like giving sloppy wet kisses to cute boys >_<
-        // I gotta stop
-
         public static void MuteGun()
         {
             if (GetGunInput(false))
