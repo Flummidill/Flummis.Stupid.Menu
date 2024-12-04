@@ -730,7 +730,7 @@ namespace iiMenu.Mods
                         isCopying = false;
                         whoCopy = null;
                         SetTick(1000f);
-                        NotifiLib.SendNotification("<color=grey>[</color><color=red>ERROR</color><color=grey>]</color> <color=white>You have been kicked for sending too many RPCs, you will reconnect shortly.</color>");
+                        NotifiLib.SendNotification("<color=grey>[</color><color=red>ERROR</color><color=grey>]</color> <color=white>You have been kicked for sending too many RPCs.</color>");
                     }
                     if (GetPlayerFromVRRig(whoCopy) == null)
                     {
