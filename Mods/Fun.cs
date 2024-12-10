@@ -2209,7 +2209,7 @@ namespace iiMenu.Mods
         public static void CloseBlockTowerSettings()
         {
             buttonsType = 12;
-            pageNumber = 8;
+            pageNumber = 7;
         }
 
         public static void BlockTower()
