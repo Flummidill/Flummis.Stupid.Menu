@@ -2123,42 +2123,10 @@ namespace iiMenu.Mods
             lasttrigcrap = rightTrigger > 0.5f;
         }
 
-        public static void OpenTowerPositioningSettings()
+        public static void OpenBlockTowerSettings()
         {
             buttonsType = 32;
             pageNumber = 0;
-        }
-
-        // Size
-
-        public static int towerSize = 5;
-
-        public static void TowerSizeBigger()
-        {
-            towerSize++;
-
-            GetIndex("Current Size").overlapText = "Size <color=grey>[</color><color=green>" + towerSize.ToString() + "</color><color=grey>]</color>";
-        }
-
-        public static void TowerSizeSmaller()
-        {
-            if (towerSize != 5)
-            {
-                towerSize--;
-            } else {
-                NotifiLib.SendNotification("<color=grey>[</color><color=red>ERROR</color><color=grey>]</color> <color=white>Tower Size cannot be smaller than 5.</color>");
-                towerSize = 5;
-            }
-
-            GetIndex("Current Size").overlapText = "Size <color=grey>[</color><color=green>" + towerSize.ToString() + "</color><color=grey>]</color>";
-
-        }
-
-        public static void TowerSizeReset()
-        {
-            towerSize = 5;
-
-            GetIndex("Current Size").overlapText = "Size <color=grey>[</color><color=green>" + towerSize.ToString() + "</color><color=grey>]</color>";
         }
 
         // Position
@@ -2183,14 +2151,14 @@ namespace iiMenu.Mods
 
         public static void TowerPosRight()
         {
-            towerPosRight--;
+            towerPosRight++;
 
             GetIndex("Current Position").overlapText = "Position <color=grey>[</color><color=green>" + towerPosForward.ToString() + ", " + towerPosRight.ToString() + ", " + towerPosUp.ToString() + "</color><color=grey>]</color>";
         }
 
         public static void TowerPosLeft()
         {
-            towerPosRight++;
+            towerPosRight--;
 
             GetIndex("Current Position").overlapText = "Position <color=grey>[</color><color=green>" + towerPosForward.ToString() + ", " + towerPosRight.ToString() + ", " + towerPosUp.ToString() + "</color><color=grey>]</color>";
         }
@@ -2211,16 +2179,34 @@ namespace iiMenu.Mods
             GetIndex("Current Position").overlapText = "Position <color=grey>[</color><color=green>" + towerPosForward.ToString() + ", " + towerPosRight.ToString() + ", " + towerPosUp.ToString() + "</color><color=grey>]</color>";
         }
 
-        public static void TowerPosReset()
-        {
-            towerPosForward = 0;
-            towerPosRight = 0;
-            towerPosUp = 0;
+        // Size
 
-            GetIndex("Current Position").overlapText = "Position <color=grey>[</color><color=green>" + towerPosForward.ToString() + ", " + towerPosRight.ToString() + ", " + towerPosUp.ToString() + "</color><color=grey>]</color>";
+        public static int towerSize = 5;
+
+        public static void TowerSizeBigger()
+        {
+            towerSize++;
+
+            GetIndex("Current Size").overlapText = "Size <color=grey>[</color><color=green>" + towerSize.ToString() + "</color><color=grey>]</color>";
         }
 
-        public static void CloseTowerPositioningSettings()
+        public static void TowerSizeSmaller()
+        {
+            if (towerSize != 5)
+            {
+                towerSize--;
+            }
+            else
+            {
+                NotifiLib.SendNotification("<color=grey>[</color><color=red>ERROR</color><color=grey>]</color> <color=white>Tower Size cannot be smaller than 5.</color>");
+                towerSize = 5;
+            }
+
+            GetIndex("Current Size").overlapText = "Size <color=grey>[</color><color=green>" + towerSize.ToString() + "</color><color=grey>]</color>";
+
+        }
+
+        public static void CloseBlockTowerSettings()
         {
             buttonsType = 12;
             pageNumber = 8;

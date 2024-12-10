@@ -638,7 +638,7 @@ namespace iiMenu.Menu
 
                 new ButtonInfo { buttonText = "Fast Ropes", enableMethod =() => Fun.FastRopes(), disableMethod =() => Fun.RegularRopes(), toolTip = "Makes the ropes really fast." },
 
-                new ButtonInfo { buttonText = "Block Tower Settings", method =() => Fun.OpenTowerPositioningSettings(), isTogglable = false, toolTip = "Opens the Block Tower Settings." },
+                new ButtonInfo { buttonText = "Block Tower Settings", method =() => Fun.OpenBlockTowerSettings(), isTogglable = false, toolTip = "Opens the Block Tower Settings." },
                 new ButtonInfo { buttonText = "Block Tower <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.BlockTower(), toolTip = "Creates a Block Tower in your Hand." },
 
                 new ButtonInfo { buttonText = "Spaz All Moles", method =() => Fun.SpazMoleMachines(), toolTip = "Gives the moles a seizure."},
@@ -1104,22 +1104,11 @@ namespace iiMenu.Menu
             },
 
             new ButtonInfo[] { // Block Tower Settings (in Fun) [32]
-                new ButtonInfo { buttonText = "Exit Block Tower Settings", method =() => Fun.CloseTowerPositioningSettings(), isTogglable = false, toolTip = "Returns you back to the Fun mods."},
-
-                // Size
-
-                new ButtonInfo { buttonText = "Current Size", overlapText = "Size <color=grey>[</color><color=green>10</color><color=grey>]</color>", isTogglable = false, toolTip = "The Current Block Tower Size."},
-
-                new ButtonInfo { buttonText = "Reset Size", method =() => Fun.TowerSizeReset(), isTogglable = false, toolTip = "Resets the Tower Size."},
-
-                new ButtonInfo { buttonText = "Bigger", method =() => Fun.TowerSizeBigger(), isTogglable = false, toolTip = "Adds 1 to the Size Variable."},
-                new ButtonInfo { buttonText = "Smaller", method =() => Fun.TowerSizeSmaller(), isTogglable = false, toolTip = "Subtracts 1 from the Size Variable."},
+                new ButtonInfo { buttonText = "Exit Block Tower Settings", method =() => Fun.CloseBlockTowerSettings(), isTogglable = false, toolTip = "Returns you back to the Fun mods."},
 
                 // Position
 
                 new ButtonInfo { buttonText = "Current Position", overlapText = "Position <color=grey>[</color><color=green>0, 0, 0</color><color=grey>]</color>", isTogglable = false, toolTip = "The Current Block Tower Position."},
-
-                new ButtonInfo { buttonText = "Reset Position", method =() => Fun.TowerPosReset(), isTogglable = false, toolTip = "Resets the Tower Position."},
 
                 new ButtonInfo { buttonText = "Forward", method =() => Fun.TowerPosForward(), isTogglable = false, toolTip = "Adds 1 to the Forward/Backward Variable."},
                 new ButtonInfo { buttonText = "Backward", method =() => Fun.TowerPosBackward(), isTogglable = false, toolTip = "Subtracts 1 from the Forward/Backward Variable."},
@@ -1127,6 +1116,13 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "Left", method =() => Fun.TowerPosLeft(), isTogglable = false, toolTip = "Subtracts 1 from the Right/Left Variable."},
                 new ButtonInfo { buttonText = "Up", method =() => Fun.TowerPosUp(), isTogglable = false, toolTip = "Adds 1 to the Up/Down Variable."},
                 new ButtonInfo { buttonText = "Down", method =() => Fun.TowerPosDown(), isTogglable = false, toolTip = "Subtracts 1 from the Up/Down Variable."},
+
+                // Size
+
+                new ButtonInfo { buttonText = "Current Size", overlapText = "Size <color=grey>[</color><color=green>10</color><color=grey>]</color>", isTogglable = false, toolTip = "The Current Block Tower Size."},
+
+                new ButtonInfo { buttonText = "Bigger", method =() => Fun.TowerSizeBigger(), isTogglable = false, toolTip = "Adds 1 to the Size Variable."},
+                new ButtonInfo { buttonText = "Smaller", method =() => Fun.TowerSizeSmaller(), isTogglable = false, toolTip = "Subtracts 1 from the Size Variable."},
             },
         };
     }
