@@ -60,27 +60,6 @@ namespace iiMenu.UI
 
         private void OnGUI()
         {
-            bool isKeyboardCondition = UnityInput.Current.GetKey(KeyCode.Backslash);
-
-            if (isKeyboardCondition && !lastCondition)
-            {
-                isOpen = !isOpen;
-                if (isOpen)
-                {
-                    if (File.Exists("iisStupidMenu/iiMenu_HideGUI.txt"))
-                    {
-                        File.Delete("iisStupidMenu/iiMenu_HideGUI.txt");
-                    }
-                } else
-                {
-                    if (!File.Exists("iisStupidMenu/iiMenu_HideGUI.txt"))
-                    {
-                        File.WriteAllText("iisStupidMenu/iiMenu_HideGUI.txt", "true");
-                    }
-                }
-            }
-            lastCondition = isKeyboardCondition;
-
             if (isOpen)
             {
                 GUI.skin.textField.fontSize = 13;
