@@ -46,7 +46,8 @@ namespace iiMenu.Menu
             new ButtonInfo[] { // Menu (in Settings) [2]
                 new ButtonInfo { buttonText = "Exit Menu Settings", method =() => Settings.EnableSettings(), isTogglable = false, toolTip = "Returns you back to the settings menu."},
 
-                new ButtonInfo { buttonText = "Hidden On Camera",overlapText = "Hide Mods on PC", toolTip = "Returns you back to the settings menu."},
+                new ButtonInfo { buttonText = "Hide GUI on PC", enableMethod =() => UI.Main.DisableGUI(), disableMethod =() => UI.Main.EnableGUI(), toolTip = "Turns on/off the GUI on PC."},
+                new ButtonInfo { buttonText = "Only Show Current Room on PC", enableMethod =() => UI.Main.EnableRoom(), disableMethod =() => UI.Main.DisableRoom(), toolTip = "Turns on/off only showing the current Room Label on PC."},
 
                 new ButtonInfo { buttonText = "Right Hand", enableMethod =() => Settings.RightHand(), disableMethod =() => Settings.LeftHand(), toolTip = "Puts the menu on your right hand."},
                 new ButtonInfo { buttonText = "Both Hands", enableMethod =() => Settings.BothHandsOn(), disableMethod =() => Settings.BothHandsOff(), toolTip = "Puts the menu on your both of your hands."},

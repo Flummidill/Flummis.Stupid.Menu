@@ -1049,6 +1049,7 @@ namespace iiMenu.Mods
                 {
                     LineRenderer liner = vrrig.head.rigTarget.gameObject.GetOrAddComponent<LineRenderer>();
                     if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
+
                     liner.startWidth = 0.025f;
                     liner.endWidth = 0.025f;
 
@@ -1064,6 +1065,7 @@ namespace iiMenu.Mods
                     for (int i = 0; i < bones.Count<int>(); i += 2)
                     {
                         liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
+                        if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
 
                         liner.startWidth = 0.025f;
                         liner.endWidth = 0.025f;
@@ -1106,6 +1108,7 @@ namespace iiMenu.Mods
                         {
                             LineRenderer liner = vrrig.head.rigTarget.gameObject.GetOrAddComponent<LineRenderer>();
                             if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
+
                             liner.startWidth = 0.025f;
                             liner.endWidth = 0.025f;
 
@@ -1121,6 +1124,7 @@ namespace iiMenu.Mods
                             for (int i = 0; i < bones.Count<int>(); i += 2)
                             {
                                 liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
+                                if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
 
                                 liner.startWidth = 0.025f;
                                 liner.endWidth = 0.025f;
@@ -1149,6 +1153,7 @@ namespace iiMenu.Mods
                         {
                             LineRenderer liner = vrrig.head.rigTarget.gameObject.GetOrAddComponent<LineRenderer>();
                             if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
+
                             liner.startWidth = 0.025f;
                             liner.endWidth = 0.025f;
 
@@ -1164,6 +1169,7 @@ namespace iiMenu.Mods
                             for (int i = 0; i < bones.Count<int>(); i += 2)
                             {
                                 liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
+                                if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
 
                                 liner.startWidth = 0.025f;
                                 liner.endWidth = 0.025f;
@@ -1193,6 +1199,7 @@ namespace iiMenu.Mods
                     {
                         LineRenderer liner = vrrig.head.rigTarget.gameObject.GetOrAddComponent<LineRenderer>();
                         if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
+
                         liner.startWidth = 0.025f;
                         liner.endWidth = 0.025f;
 
@@ -1208,6 +1215,7 @@ namespace iiMenu.Mods
                         for (int i = 0; i < bones.Count<int>(); i += 2)
                         {
                             liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
+                            if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
 
                             liner.startWidth = 0.025f;
                             liner.endWidth = 0.025f;
@@ -1241,6 +1249,7 @@ namespace iiMenu.Mods
                     if (GetIndex("Transparent Theme").enabled) { thecolor.a = 0.5f; }
                     LineRenderer liner = vrrig.head.rigTarget.gameObject.GetOrAddComponent<LineRenderer>();
                     if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
+
                     liner.startWidth = 0.025f;
                     liner.endWidth = 0.025f;
 
@@ -1256,6 +1265,7 @@ namespace iiMenu.Mods
                     for (int i = 0; i < bones.Count<int>(); i += 2)
                     {
                         liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
+                        if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
 
                         liner.startWidth = 0.025f;
                         liner.endWidth = 0.025f;
@@ -1277,6 +1287,7 @@ namespace iiMenu.Mods
                     if (GetIndex("Transparent Theme").enabled) { thecolor.a = 0.5f; }
                     LineRenderer liner = vrrig.head.rigTarget.gameObject.GetOrAddComponent<LineRenderer>();
                     if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
+
                     liner.startWidth = 0.025f;
                     liner.endWidth = 0.025f;
 
@@ -1292,6 +1303,7 @@ namespace iiMenu.Mods
                     for (int i = 0; i < bones.Count<int>(); i += 2)
                     {
                         liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
+                        if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
 
                         liner.startWidth = 0.025f;
                         liner.endWidth = 0.025f;
@@ -2226,6 +2238,7 @@ namespace iiMenu.Mods
                     go.transform.position = vrrig.transform.position + new Vector3(0f, -0.2f, 0f);
                     textMesh.text = string.Format("{0:F1}m", Vector3.Distance(Camera.main.transform.position, vrrig.transform.position));
                     GameObject bg = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    if (GetIndex("Hidden on Camera").enabled) { bg.layer = 19; }
                     UnityEngine.Object.Destroy(bg.GetComponent<Collider>());
                     bg.transform.parent = go.transform;
                     bg.transform.localPosition = Vector3.zero;
@@ -2277,6 +2290,7 @@ namespace iiMenu.Mods
                             go.transform.position = vrrig.transform.position + new Vector3(0f, -0.2f, 0f);
                             textMesh.text = string.Format("{0:F1}m", Vector3.Distance(Camera.main.transform.position, vrrig.transform.position));
                             GameObject bg = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                            if (GetIndex("Hidden on Camera").enabled) { bg.layer = 19; }
                             UnityEngine.Object.Destroy(bg.GetComponent<Collider>());
                             bg.transform.parent = go.transform;
                             bg.transform.localPosition = Vector3.zero;
@@ -2314,6 +2328,7 @@ namespace iiMenu.Mods
                             go.transform.position = vrrig.transform.position + new Vector3(0f, -0.2f, 0f);
                             textMesh.text = string.Format("{0:F1}m", Vector3.Distance(Camera.main.transform.position, vrrig.transform.position));
                             GameObject bg = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                            if (GetIndex("Hidden on Camera").enabled) { bg.layer = 19; }
                             UnityEngine.Object.Destroy(bg.GetComponent<Collider>());
                             bg.transform.parent = go.transform;
                             bg.transform.localPosition = Vector3.zero;
@@ -2352,6 +2367,7 @@ namespace iiMenu.Mods
                         go.transform.position = vrrig.transform.position + new Vector3(0f, -0.2f, 0f);
                         textMesh.text = string.Format("{0:F1}m", Vector3.Distance(Camera.main.transform.position, vrrig.transform.position));
                         GameObject bg = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                        if (GetIndex("Hidden on Camera").enabled) { bg.layer = 19; }
                         UnityEngine.Object.Destroy(bg.GetComponent<Collider>());
                         bg.transform.parent = go.transform;
                         bg.transform.localPosition = Vector3.zero;
@@ -2394,6 +2410,7 @@ namespace iiMenu.Mods
                     go.transform.position = vrrig.transform.position + new Vector3(0f, -0.2f, 0f);
                     textMesh.text = string.Format("{0:F1}m", Vector3.Distance(Camera.main.transform.position, vrrig.transform.position));
                     GameObject bg = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    if (GetIndex("Hidden on Camera").enabled) { bg.layer = 19; }
                     UnityEngine.Object.Destroy(bg.GetComponent<Collider>());
                     bg.transform.parent = go.transform;
                     bg.transform.localPosition = Vector3.zero;
@@ -2425,6 +2442,7 @@ namespace iiMenu.Mods
                     go.transform.position = vrrig.transform.position + new Vector3(0f, -0.2f, 0f);
                     textMesh.text = string.Format("{0:F1}m", Vector3.Distance(Camera.main.transform.position, vrrig.transform.position));
                     GameObject bg = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    if (GetIndex("Hidden on Camera").enabled) { bg.layer = 19; }
                     UnityEngine.Object.Destroy(bg.GetComponent<Collider>());
                     bg.transform.parent = go.transform;
                     bg.transform.localPosition = Vector3.zero;
