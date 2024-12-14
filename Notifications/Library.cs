@@ -154,7 +154,7 @@ namespace iiMenu.Notifications
                     ModText.text = ModText.text.ToLower();
                     NotifiText.text = NotifiText.text.ToLower();
                 }
-                HUDObj.layer = GetIndex("Hide Notifications on Camera").enabled ? 19 : 0;
+                HUDObj.layer = GetIndex("Hidden on Camera").enabled ? 19 : 0;
             } catch { /* Game not initialized */ }
         }
 

@@ -1874,7 +1874,6 @@ namespace iiMenu.Menu
             canvasObj = new GameObject();
             canvasObj.transform.parent = menu.transform;
             Canvas canvas = canvasObj.AddComponent<Canvas>();
-            if (GetIndex("Hide Text on Camera").enabled) { canvasObj.layer = 19; }
             CanvasScaler canvasScaler = canvasObj.AddComponent<CanvasScaler>();
             canvasObj.AddComponent<GraphicRaycaster>();
             canvas.renderMode = RenderMode.WorldSpace;
