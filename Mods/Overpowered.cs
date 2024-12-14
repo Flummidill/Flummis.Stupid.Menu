@@ -1664,16 +1664,21 @@ namespace iiMenu.Mods
                 currentRope = null;
             }
 
-            List<Transform> ropeBones = new List<Transform>();
-            foreach (GorillaRopeSwing rope in selectedRopes) {
+            // Render Selected Ropes
 
+            List<Transform> ropeBones = new List<Transform>();
+            foreach (GorillaRopeSwing rope in selectedRopes)
+            {
                 ropeBones = new List<Transform>();
 
-                foreach(Transform bone in rope.gameObject.GetComponentInChildren<Transform>())
+                if (rope.gameObject.GetComponentInChildren<Transform>() != null)
                 {
-                    if (bone.gameObject.name.StartsWith("RopeBone_"))
+                    foreach (Transform bone in rope.gameObject.GetComponentInChildren<Transform>())
                     {
-                        ropeBones.Add(bone.gameObject.transform);
+                        if (bone.gameObject.name.StartsWith("RopeBone_"))
+                        {
+                            ropeBones.Add(bone.gameObject.transform);
+                        }
                     }
                 }
 
@@ -1720,6 +1725,8 @@ namespace iiMenu.Mods
                     }
                 }
             }
+
+            // Render Selected Ropes
 
             List<Transform> ropeBones = new List<Transform>();
             foreach (GorillaRopeSwing rope in selectedRopes)
