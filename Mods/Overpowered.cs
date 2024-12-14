@@ -9,7 +9,9 @@ using Photon.Pun;
 using Photon.Realtime;
 using Photon.Voice.PUN;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static iiMenu.Classes.RigManager;
@@ -1615,7 +1617,7 @@ namespace iiMenu.Mods
         }
 
         private static float RopeDelay = 0f;
-        public static void JoystickRopeControl() // Thanks to ShibaGT for the fix
+        public static void JoystickRopeControl()
         {
             Vector2 joy = ControllerInputPoller.instance.rightControllerPrimary2DAxis;
 
@@ -1626,6 +1628,135 @@ namespace iiMenu.Mods
                 {
                     RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
                     RPCProtection();
+                }
+            }
+        }
+
+        public static List<GorillaRopeSwing> selectedRopes = new List<GorillaRopeSwing>();
+        public static GorillaRopeSwing currentRope = null;
+        public static void SelectRopeGun()
+        {
+            if (GetGunInput(false))
+            {
+                var GunData = RenderGun();
+                RaycastHit Ray = GunData.Ray;
+                GameObject NewPointer = GunData.NewPointer;
+
+                if (GetGunInput(true))
+                {
+                    GorillaRopeSwing rope = Ray.collider.GetComponentInParent<GorillaRopeSwing>();
+
+                    if (rope != currentRope)
+                    {
+                        currentRope = rope;
+
+                        if (!selectedRopes.Contains(rope))
+                        {
+                            selectedRopes.Add(rope);
+                        } else {
+                            selectedRopes.Remove(rope);
+                        }
+                    }
+                } else {
+                    currentRope = null;
+                }
+            } else {
+                currentRope = null;
+            }
+
+            List<Transform> ropeBones = new List<Transform>();
+            foreach (GorillaRopeSwing rope in selectedRopes) {
+
+                ropeBones = new List<Transform>();
+
+                foreach(Transform bone in rope.gameObject.GetComponentInChildren<Transform>())
+                {
+                    if (bone.gameObject.name.StartsWith("RopeBone_"))
+                    {
+                        ropeBones.Add(bone.gameObject.transform);
+                    }
+                }
+
+                Transform prevBone = null;
+                foreach (Transform bone in ropeBones)
+                {
+                    if (!(bone.name == "RopeBone_00"))
+                    {
+                        GameObject line = new GameObject("Line");
+                        if (GetIndex("Hidden on Camera").enabled) { line.layer = 19; }
+
+                        LineRenderer liner = line.AddComponent<LineRenderer>();
+                        liner.startColor = GetBGColor(0f);
+                        liner.endColor = GetBGColor(0f);
+                        liner.startWidth = 0.025f;
+                        liner.endWidth = 0.025f;
+                        liner.positionCount = 2;
+                        liner.useWorldSpace = true;
+                        liner.SetPosition(0, prevBone.transform.position);
+                        liner.SetPosition(1, bone.transform.position);
+                        liner.material.shader = Shader.Find("GUI/Text Shader");
+                        UnityEngine.Object.Destroy(line, Time.deltaTime);
+                    }
+
+                    prevBone = bone;
+                }
+            }
+        }
+
+        private static float RopeDelay2 = 0f;
+        public static void JoystickRopeControlSelected()
+        {
+            Vector2 joy = ControllerInputPoller.instance.rightControllerPrimary2DAxis;
+
+            if ((Mathf.Abs(joy.x) > 0.05f || Mathf.Abs(joy.y) > 0.05f) && Time.time > RopeDelay2)
+            {
+                RopeDelay2 = Time.time + 0.25f;
+                foreach (GorillaRopeSwing rope in GetRopes())
+                {
+                    if (selectedRopes.Contains(rope))
+                    {
+                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
+                        RPCProtection();
+                    }
+                }
+            }
+
+            List<Transform> ropeBones = new List<Transform>();
+            foreach (GorillaRopeSwing rope in selectedRopes)
+            {
+
+                ropeBones = new List<Transform>();
+
+                foreach (Transform bone in rope.gameObject.GetComponentInChildren<Transform>())
+                {
+                    if (bone.gameObject.name.StartsWith("RopeBone_"))
+                    {
+                        ropeBones.Add(bone.gameObject.transform);
+                    }
+                }
+
+                Transform prevBone = null;
+                foreach (Transform bone in ropeBones)
+                {
+                    if (!(bone.name == "RopeBone_00"))
+                    {
+                        GameObject line = new GameObject("Line");
+                        if (GetIndex("Hidden on Camera").enabled) { line.layer = 19; }
+
+                        LineRenderer liner = line.AddComponent<LineRenderer>();
+                        liner.startColor = GetBGColor(0f);
+                        liner.endColor = GetBGColor(0f);
+                        liner.startWidth = 0.025f;
+                        liner.endWidth = 0.025f;
+                        liner.positionCount = 2;
+                        liner.useWorldSpace = true;
+                        liner.SetPosition(0, prevBone.transform.position);
+                        liner.SetPosition(1, bone.transform.position);
+                        liner.material.shader = Shader.Find("GUI/Text Shader");
+                        UnityEngine.Object.Destroy(line, Time.deltaTime);
+                    }
+
+                    prevBone = bone;
                 }
             }
         }

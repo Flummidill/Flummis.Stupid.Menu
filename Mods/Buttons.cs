@@ -923,6 +923,9 @@ namespace iiMenu.Menu
 
                 new ButtonInfo { buttonText = "Joystick Rope Control <color=grey>[</color><color=green>J</color><color=grey>]</color>", method =() => Overpowered.JoystickRopeControl(), toolTip = "Control the ropes in the direction of your joystick."},
 
+                new ButtonInfo { buttonText = "Select Rope Gun", method =() => Overpowered.SelectRopeGun(), toolTip = "Select Ropes for \"Joystick Rope Control Selected\"."},
+                new ButtonInfo { buttonText = "Joystick Rope Control Selected <color=grey>[</color><color=green>J</color><color=grey>]</color>", method =() => Overpowered.JoystickRopeControlSelected(), toolTip = "Control the ropes in the direction of your joystick."},
+
                 new ButtonInfo { buttonText = "Broken Ropes", method =() => Overpowered.SpazGrabbedRopes(), toolTip = "Gives any ropes currently being held onto a seizure."},
                 new ButtonInfo { buttonText = "Confusing Ropes", method =() => Overpowered.ConfusingRopes(), toolTip = "Gives any ropes currently being held onto a seizure but only for the person holding the rope."},
                 new ButtonInfo { buttonText = "Spaz Rope Gun", method =() => Overpowered.SpazRopeGun(), toolTip = "Gives whatever rope your hand desires a seizure."},

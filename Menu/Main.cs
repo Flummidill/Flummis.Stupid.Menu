@@ -8,6 +8,7 @@ using HarmonyLib;
 using iiMenu.Classes;
 using iiMenu.Mods;
 using iiMenu.Notifications;
+using Pathfinding.RVO;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
@@ -3396,6 +3397,8 @@ namespace iiMenu.Menu
             }
 
             GameObject NewPointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            if (GetIndex("Hidden on Camera").enabled) { NewPointer.layer = 19; }
+
             NewPointer.GetComponent<Renderer>().material.shader = Shader.Find("GUI/Text Shader");
             NewPointer.GetComponent<Renderer>().material.color = (isCopying || GetGunInput(true)) ? GetBDColor(0f) : GetBRColor(0f);
             NewPointer.transform.localScale = smallGunPointer ? new Vector3(0.1f, 0.1f, 0.1f) : new Vector3(0.2f, 0.2f, 0.2f);
@@ -3412,6 +3415,8 @@ namespace iiMenu.Menu
             if (!disableGunLine)
             {
                 GameObject line = new GameObject("Line");
+                if (GetIndex("Hidden on Camera").enabled) { line.layer = 19; }
+
                 LineRenderer liner = line.AddComponent<LineRenderer>();
                 liner.material.shader = Shader.Find("GUI/Text Shader");
                 liner.startColor = GetBGColor(0f);
