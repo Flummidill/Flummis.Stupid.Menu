@@ -1644,17 +1644,20 @@ namespace iiMenu.Mods
 
                 if (GetGunInput(true))
                 {
-                    GorillaRopeSwing rope = Ray.collider.GetComponentInParent<GorillaRopeSwing>();
-
-                    if (rope != currentRope)
+                    if (Ray.collider.GetComponentInParent<GorillaRopeSwing>() != null)
                     {
-                        currentRope = rope;
+                        GorillaRopeSwing rope = Ray.collider.GetComponentInParent<GorillaRopeSwing>();
 
-                        if (!selectedRopes.Contains(rope))
+                        if (rope != currentRope)
                         {
-                            selectedRopes.Add(rope);
-                        } else {
-                            selectedRopes.Remove(rope);
+                            currentRope = rope;
+
+                            if (!selectedRopes.Contains(rope))
+                            {
+                                selectedRopes.Add(rope);
+                            } else {
+                                selectedRopes.Remove(rope);
+                            }
                         }
                     }
                 } else {
@@ -1662,49 +1665,6 @@ namespace iiMenu.Mods
                 }
             } else {
                 currentRope = null;
-            }
-
-            // Render Selected Ropes
-
-            List<Transform> ropeBones = new List<Transform>();
-            foreach (GorillaRopeSwing rope in selectedRopes)
-            {
-                ropeBones = new List<Transform>();
-
-                if (rope.gameObject.GetComponentInChildren<Transform>() != null)
-                {
-                    foreach (Transform bone in rope.gameObject.GetComponentInChildren<Transform>())
-                    {
-                        if (bone.gameObject.name.StartsWith("RopeBone_"))
-                        {
-                            ropeBones.Add(bone.gameObject.transform);
-                        }
-                    }
-                }
-
-                Transform prevBone = null;
-                foreach (Transform bone in ropeBones)
-                {
-                    if (!(bone.name == "RopeBone_00"))
-                    {
-                        GameObject line = new GameObject("Line");
-                        if (GetIndex("Hidden on Camera").enabled) { line.layer = 19; }
-
-                        LineRenderer liner = line.AddComponent<LineRenderer>();
-                        liner.startColor = GetBGColor(0f);
-                        liner.endColor = GetBGColor(0f);
-                        liner.startWidth = 0.025f;
-                        liner.endWidth = 0.025f;
-                        liner.positionCount = 2;
-                        liner.useWorldSpace = true;
-                        liner.SetPosition(0, prevBone.transform.position);
-                        liner.SetPosition(1, bone.transform.position);
-                        liner.material.shader = Shader.Find("GUI/Text Shader");
-                        UnityEngine.Object.Destroy(line, Time.deltaTime);
-                    }
-
-                    prevBone = bone;
-                }
             }
         }
 
@@ -1723,47 +1683,6 @@ namespace iiMenu.Mods
                         RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
                         RPCProtection();
                     }
-                }
-            }
-
-            // Render Selected Ropes
-
-            List<Transform> ropeBones = new List<Transform>();
-            foreach (GorillaRopeSwing rope in selectedRopes)
-            {
-
-                ropeBones = new List<Transform>();
-
-                foreach (Transform bone in rope.gameObject.GetComponentInChildren<Transform>())
-                {
-                    if (bone.gameObject.name.StartsWith("RopeBone_"))
-                    {
-                        ropeBones.Add(bone.gameObject.transform);
-                    }
-                }
-
-                Transform prevBone = null;
-                foreach (Transform bone in ropeBones)
-                {
-                    if (!(bone.name == "RopeBone_00"))
-                    {
-                        GameObject line = new GameObject("Line");
-                        if (GetIndex("Hidden on Camera").enabled) { line.layer = 19; }
-
-                        LineRenderer liner = line.AddComponent<LineRenderer>();
-                        liner.startColor = GetBGColor(0f);
-                        liner.endColor = GetBGColor(0f);
-                        liner.startWidth = 0.025f;
-                        liner.endWidth = 0.025f;
-                        liner.positionCount = 2;
-                        liner.useWorldSpace = true;
-                        liner.SetPosition(0, prevBone.transform.position);
-                        liner.SetPosition(1, bone.transform.position);
-                        liner.material.shader = Shader.Find("GUI/Text Shader");
-                        UnityEngine.Object.Destroy(line, Time.deltaTime);
-                    }
-
-                    prevBone = bone;
                 }
             }
         }

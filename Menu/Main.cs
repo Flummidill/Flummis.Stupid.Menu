@@ -735,6 +735,51 @@ namespace iiMenu.Menu
                     }
                     catch { }
 
+                    // Highlight Selected Ropes
+                    if (Overpowered.selectedRopes.Count != 0)
+                    {
+                        List<Transform> ropeBones = new List<Transform>();
+                        foreach (GorillaRopeSwing rope in Overpowered.selectedRopes)
+                        {
+                            ropeBones = new List<Transform>();
+
+                            if (rope.gameObject.GetComponentInChildren<Transform>() != null)
+                            {
+                                foreach (Transform bone in rope.gameObject.GetComponentInChildren<Transform>())
+                                {
+                                    if (bone.gameObject.name.StartsWith("RopeBone_"))
+                                    {
+                                        ropeBones.Add(bone.gameObject.transform);
+                                    }
+                                }
+                            }
+
+                            Transform prevBone = null;
+                            foreach (Transform bone in ropeBones)
+                            {
+                                if (!(bone.name == "RopeBone_00"))
+                                {
+                                    GameObject line = new GameObject("Line");
+                                    if (GetIndex("Hidden on Camera").enabled) { line.layer = 19; }
+
+                                    LineRenderer liner = line.AddComponent<LineRenderer>();
+                                    liner.startColor = GetBGColor(0f);
+                                    liner.endColor = GetBGColor(0f);
+                                    liner.startWidth = 0.025f;
+                                    liner.endWidth = 0.025f;
+                                    liner.positionCount = 2;
+                                    liner.useWorldSpace = true;
+                                    liner.SetPosition(0, prevBone.transform.position);
+                                    liner.SetPosition(1, bone.transform.position);
+                                    liner.material.shader = Shader.Find("GUI/Text Shader");
+                                    UnityEngine.Object.Destroy(line, Time.deltaTime);
+                                }
+
+                                prevBone = bone;
+                            }
+                        }
+                    }
+
                     // Legacy Admin mods / ii's Harmless Backdoor
                     if (PhotonNetwork.InRoom)
                     {
