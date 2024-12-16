@@ -1621,12 +1621,13 @@ namespace iiMenu.Mods
         {
             Vector2 joy = ControllerInputPoller.instance.rightControllerPrimary2DAxis;
 
-            if ((Mathf.Abs(joy.x) > 0.05f || Mathf.Abs(joy.y) > 0.05f) && Time.time > RopeDelay)
+            if (Mathf.Abs(joy.x) > 0.05f || Mathf.Abs(joy.y) > 0.05f && Time.time > RopeDelay)
             {
                 RopeDelay = Time.time + 0.25f;
+
                 foreach (GorillaRopeSwing rope in GetRopes())
                 {
-                    RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
+                    RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
                     RPCProtection();
                 }
             }
@@ -1668,96 +1669,103 @@ namespace iiMenu.Mods
             }
         }
 
-        private static float RopeDelay2 = 0f;
         public static void JoystickRopeControlSelected()
+        {
+            if (!GetIndex("Rope Control Freeze").enabled && !GetIndex("Rope Control Line").enabled)
+            {
+                JRCS_N();
+            }
+            if (GetIndex("Rope Control Freeze").enabled)
+            {
+                JRCS_F();
+            }
+            if (GetIndex("Rope Control Line").enabled)
+            {
+                JRCS_L();
+            }
+            if (GetIndex("Rope Control Freeze").enabled && GetIndex("Rope Control Line").enabled)
+            {
+                JRCS_FL();
+            }
+        }
+
+        public static void JRCS_N()
         {
             Vector2 joy = ControllerInputPoller.instance.rightControllerPrimary2DAxis;
 
-            if ((Mathf.Abs(joy.x) > 0.05f || Mathf.Abs(joy.y) > 0.05f) && Time.time > RopeDelay2)
+            if ((Mathf.Abs(joy.x) > 0.05f || Mathf.Abs(joy.y) > 0.05f) && Time.time > RopeDelay)
             {
-                RopeDelay2 = Time.time + 0.25f;
+                RopeDelay = Time.time + 0.25f;
+
                 foreach (GorillaRopeSwing rope in GetRopes())
                 {
                     if (selectedRopes.Contains(rope))
                     {
-                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
+                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
                         RPCProtection();
                     }
                 }
             }
         }
 
-        public static void SpazRopeGun()
+        public static void JRCS_F()
         {
-            if (GetGunInput(false))
+            Vector2 joy = ControllerInputPoller.instance.rightControllerPrimary2DAxis;
+
+            if (Mathf.Abs(joy.x) > 0.05f || Mathf.Abs(joy.y) > 0.05f)
             {
-                var GunData = RenderGun();
-                RaycastHit Ray = GunData.Ray;
-                GameObject NewPointer = GunData.NewPointer;
-
-                if (GetGunInput(true))
-                {
-                    GorillaRopeSwing possibly = Ray.collider.GetComponentInParent<GorillaRopeSwing>();
-                    if (possibly && Time.time > RopeDelay)
-                    {
-                        RopeDelay = Time.time + 0.25f;
-                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { possibly.ropeId, 1, new Vector3(UnityEngine.Random.Range(-50f, 50f), UnityEngine.Random.Range(-50f, 50f), UnityEngine.Random.Range(-50f, 50f)), true, null });
-                        RPCProtection();
-                    }
-                }
-            }
-        }
-
-        public static void SpazAllRopes()
-        {
-            if (rightTrigger > 0.5f)
-            {
-                var GunData = RenderGun();
-                RaycastHit Ray = GunData.Ray;
-                GameObject NewPointer = GunData.NewPointer;
-
-                if (GetGunInput(true) && Time.time > RopeDelay)
+                if (Time.time > RopeDelay)
                 {
                     RopeDelay = Time.time + 0.25f;
+
                     foreach (GorillaRopeSwing rope in GetRopes())
                     {
-                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, new Vector3(UnityEngine.Random.Range(-50f, 50f), UnityEngine.Random.Range(-50f, 50f), UnityEngine.Random.Range(-50f, 50f)), true, null });
+                        if (selectedRopes.Contains(rope))
+                        {
+                            RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
+                            RPCProtection();
+                        }
+                    }
+                }
+            } else {
+                foreach (GorillaRopeSwing rope in GetRopes())
+                {
+                    if (selectedRopes.Contains(rope))
+                    {
+                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(0f, 0f, 0f), true, null });
                         RPCProtection();
                     }
                 }
             }
         }
 
-        public static void SpazGrabbedRopes()
+        public static void JRCS_L()
         {
-            if (Time.time > RopeDelay)
+            Vector2 joy = ControllerInputPoller.instance.rightControllerPrimary2DAxis;
+
+            if (Mathf.Abs(joy.x) > 0.05f || Mathf.Abs(joy.y) > 0.05f)
             {
-                RopeDelay = Time.time + 0.1f;
-                foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+                foreach (GorillaRopeSwing rope in GetRopes())
                 {
-                    GorillaRopeSwing rope = (GorillaRopeSwing)Traverse.Create(vrrig).Field("currentRopeSwing").GetValue();
-                    if (rope != null)
+                    if (selectedRopes.Contains(rope))
                     {
-                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, new Vector3(UnityEngine.Random.Range(-50f, 50f), UnityEngine.Random.Range(-50f, 50f), UnityEngine.Random.Range(-50f, 50f)), true, null });
+                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
                         RPCProtection();
                     }
                 }
             }
         }
 
-        public static void ConfusingRopes()
+        public static void JRCS_FL()
         {
-            if (Time.time > RopeDelay)
+            Vector2 joy = ControllerInputPoller.instance.rightControllerPrimary2DAxis;
+
+            foreach (GorillaRopeSwing rope in GetRopes())
             {
-                RopeDelay = Time.time + 0.1f;
-                foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+                if (selectedRopes.Contains(rope))
                 {
-                    GorillaRopeSwing rope = (GorillaRopeSwing)Traverse.Create(vrrig).Field("currentRopeSwing").GetValue();
-                    if (rope != null)
-                    {
-                        RopeSwingManager.instance.photonView.RPC("SetVelocity", NetPlayerToPlayer(GetPlayerFromVRRig(whoCopy)), new object[] { rope.ropeId, 1, new Vector3(UnityEngine.Random.Range(-50f, 50f), UnityEngine.Random.Range(-50f, 50f), UnityEngine.Random.Range(-50f, 50f)), true, null });
-                        RPCProtection();
-                    }
+                    RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
+                    RPCProtection();
                 }
             }
         }
@@ -1790,12 +1798,72 @@ namespace iiMenu.Mods
                 RaycastHit Ray = GunData.Ray;
                 GameObject NewPointer = GunData.NewPointer;
 
-                if (GetGunInput(true) && Time.time > RopeDelay)
+                if (GetGunInput(true))
                 {
-                    RopeDelay = Time.time + 0.25f;
                     foreach (GorillaRopeSwing rope in GetRopes())
                     {
                         RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, (NewPointer.transform.position - rope.transform.position).normalized * 50f, true, null });
+                        RPCProtection();
+                    }
+                }
+            }
+        }
+
+        public static void SpazRopeGun()
+        {
+            if (GetGunInput(false))
+            {
+                var GunData = RenderGun();
+                RaycastHit Ray = GunData.Ray;
+                GameObject NewPointer = GunData.NewPointer;
+
+                if (GetGunInput(true))
+                {
+                    GorillaRopeSwing possibly = Ray.collider.GetComponentInParent<GorillaRopeSwing>();
+                    if (possibly && Time.time > RopeDelay)
+                    {
+                        RopeDelay = Time.time + 0.25f;
+
+                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { possibly.ropeId, 1, new Vector3(UnityEngine.Random.Range(-50f, 50f), UnityEngine.Random.Range(-50f, 50f), UnityEngine.Random.Range(-50f, 50f)), true, null });
+                        RPCProtection();
+                    }
+                }
+            }
+        }
+
+        public static void SpazAllRopes()
+        {
+            if (rightTrigger > 0.5f)
+            {
+                var GunData = RenderGun();
+                RaycastHit Ray = GunData.Ray;
+                GameObject NewPointer = GunData.NewPointer;
+
+                if (GetGunInput(true) && Time.time > RopeDelay)
+                {
+                    RopeDelay = Time.time + 0.25f;
+
+                    foreach (GorillaRopeSwing rope in GetRopes())
+                    {
+                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, new Vector3(UnityEngine.Random.Range(-50f, 50f), UnityEngine.Random.Range(-50f, 50f), UnityEngine.Random.Range(-50f, 50f)), true, null });
+                        RPCProtection();
+                    }
+                }
+            }
+        }
+
+        public static void SpazGrabbedRopes()
+        {
+            if (Time.time > RopeDelay)
+            {
+                RopeDelay = Time.time + 0.1f;
+
+                foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+                {
+                    GorillaRopeSwing rope = (GorillaRopeSwing)Traverse.Create(vrrig).Field("currentRopeSwing").GetValue();
+                    if (rope != null)
+                    {
+                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, new Vector3(UnityEngine.Random.Range(-50f, 50f), UnityEngine.Random.Range(-50f, 50f), UnityEngine.Random.Range(-50f, 50f)), true, null });
                         RPCProtection();
                     }
                 }
