@@ -14,6 +14,7 @@ using System.Reflection;
 using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Valve.VR;
 using static iiMenu.Classes.RigManager;
 using static iiMenu.Menu.Main;
 
@@ -1616,18 +1617,19 @@ namespace iiMenu.Mods
             }
         }
 
-        private static float RopeDelay = 0f;
+        static float RopeDelay = 0f;
         public static void JoystickRopeControl()
         {
-            Vector2 joy = ControllerInputPoller.instance.rightControllerPrimary2DAxis;
+            Vector2 joy_l = SteamVR_Actions.gorillaTag_LeftJoystick2DAxis.axis;
+            Vector2 joy_r = SteamVR_Actions.gorillaTag_RightJoystick2DAxis.axis;
 
-            if (Mathf.Abs(joy.x) > 0.05f || Mathf.Abs(joy.y) > 0.05f && Time.time > RopeDelay)
+            if ((Mathf.Abs(joy_r.x) > 0.05f || Mathf.Abs(joy_l.y) > 0.05f || Mathf.Abs(joy_r.y) > 0.05f) && Time.time > RopeDelay)
             {
                 RopeDelay = Time.time + 0.25f;
 
                 foreach (GorillaRopeSwing rope in GetRopes())
                 {
-                    RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
+                    RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy_r.x * 50f, joy_l.y * 50f, joy_r.y * 50f), true, null });
                     RPCProtection();
                 }
             }
@@ -1691,9 +1693,10 @@ namespace iiMenu.Mods
 
         public static void JRCS_N()
         {
-            Vector2 joy = ControllerInputPoller.instance.rightControllerPrimary2DAxis;
+            Vector2 joy_l = SteamVR_Actions.gorillaTag_LeftJoystick2DAxis.axis;
+            Vector2 joy_r = SteamVR_Actions.gorillaTag_RightJoystick2DAxis.axis;
 
-            if ((Mathf.Abs(joy.x) > 0.05f || Mathf.Abs(joy.y) > 0.05f) && Time.time > RopeDelay)
+            if ((Mathf.Abs(joy_r.x) > 0.05f || Mathf.Abs(joy_l.y) > 0.05f || Mathf.Abs(joy_r.y) > 0.05f) && Time.time > RopeDelay)
             {
                 RopeDelay = Time.time + 0.25f;
 
@@ -1701,7 +1704,7 @@ namespace iiMenu.Mods
                 {
                     if (selectedRopes.Contains(rope))
                     {
-                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
+                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy_r.x * 50f, joy_l.y * 50f, joy_r.y * 50f), true, null });
                         RPCProtection();
                     }
                 }
@@ -1710,9 +1713,10 @@ namespace iiMenu.Mods
 
         public static void JRCS_F()
         {
-            Vector2 joy = ControllerInputPoller.instance.rightControllerPrimary2DAxis;
+            Vector2 joy_l = SteamVR_Actions.gorillaTag_LeftJoystick2DAxis.axis;
+            Vector2 joy_r = SteamVR_Actions.gorillaTag_RightJoystick2DAxis.axis;
 
-            if (Mathf.Abs(joy.x) > 0.05f || Mathf.Abs(joy.y) > 0.05f)
+            if (Mathf.Abs(joy_r.x) > 0.05f || Mathf.Abs(joy_l.y) > 0.05f || Mathf.Abs(joy_r.y) > 0.05f)
             {
                 if (Time.time > RopeDelay)
                 {
@@ -1722,7 +1726,7 @@ namespace iiMenu.Mods
                     {
                         if (selectedRopes.Contains(rope))
                         {
-                            RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
+                            RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy_r.x * 50f, joy_l.y * 50f, joy_r.y * 50f), true, null });
                             RPCProtection();
                         }
                     }
@@ -1741,15 +1745,16 @@ namespace iiMenu.Mods
 
         public static void JRCS_L()
         {
-            Vector2 joy = ControllerInputPoller.instance.rightControllerPrimary2DAxis;
+            Vector2 joy_l = SteamVR_Actions.gorillaTag_LeftJoystick2DAxis.axis;
+            Vector2 joy_r = SteamVR_Actions.gorillaTag_RightJoystick2DAxis.axis;
 
-            if (Mathf.Abs(joy.x) > 0.05f || Mathf.Abs(joy.y) > 0.05f)
+            if (Mathf.Abs(joy_r.x) > 0.05f || Mathf.Abs(joy_l.y) > 0.05f || Mathf.Abs(joy_r.y) > 0.05f)
             {
                 foreach (GorillaRopeSwing rope in GetRopes())
                 {
                     if (selectedRopes.Contains(rope))
                     {
-                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
+                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy_r.x * 50f, joy_l.y * 50f, joy_r.y * 50f), true, null });
                         RPCProtection();
                     }
                 }
@@ -1758,14 +1763,18 @@ namespace iiMenu.Mods
 
         public static void JRCS_FL()
         {
-            Vector2 joy = ControllerInputPoller.instance.rightControllerPrimary2DAxis;
+            Vector2 joy_l = SteamVR_Actions.gorillaTag_LeftJoystick2DAxis.axis;
+            Vector2 joy_r = SteamVR_Actions.gorillaTag_RightJoystick2DAxis.axis;
 
-            foreach (GorillaRopeSwing rope in GetRopes())
+            if (Mathf.Abs(joy_r.x) > 0.05f || Mathf.Abs(joy_l.y) > 0.05f || Mathf.Abs(joy_r.y) > 0.05f)
             {
-                if (selectedRopes.Contains(rope))
+                foreach (GorillaRopeSwing rope in GetRopes())
                 {
-                    RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy.x * 50f, joy.y * 50f, 0f), true, null });
-                    RPCProtection();
+                    if (selectedRopes.Contains(rope))
+                    {
+                        RopeSwingManager.instance.photonView.RPC("SetVelocity", RpcTarget.All, new object[] { rope.ropeId, 1, Quaternion.Euler(0, GorillaTagger.Instance.headCollider.transform.eulerAngles.y, 0) * new Vector3(joy_r.x * 50f, joy_l.y * 50f, joy_r.y * 50f), true, null });
+                        RPCProtection();
+                    }
                 }
             }
         }
