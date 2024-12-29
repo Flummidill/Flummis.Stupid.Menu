@@ -2141,7 +2141,7 @@ namespace iiMenu.Mods
 
         public static void OpenBlockTowerSettings()
         {
-            buttonsType = 32;
+            buttonsType = 33;
             pageNumber = 0;
         }
 
