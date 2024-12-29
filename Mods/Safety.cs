@@ -5,6 +5,7 @@ using iiMenu.Notifications;
 using Photon.Pun;
 using Photon.Realtime;
 using System.IO;
+using System.Threading;
 using UnityEngine;
 using Valve.VR;
 using static iiMenu.Classes.RigManager;
@@ -321,7 +322,7 @@ namespace iiMenu.Mods
             }
         }
 
-        public static void AntiModerator()
+        public static void AntiModeratorDisconnect()
         {
             foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
             {
@@ -380,6 +381,76 @@ namespace iiMenu.Mods
                     catch { }
                     PhotonNetwork.Disconnect();
                     NotifiLib.SendNotification("<color=grey>[</color><color=purple>ANTI-MODERATOR</color><color=grey>]</color> There was a moderator in your lobby, you have been disconnected. Their Player ID and Room Code have been saved to a file.");
+                }
+            }
+        }
+
+        public static void AntiModeratorNotification()
+        {
+            foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+            {
+                if (!vrrig.isOfflineVRRig && vrrig.concatStringOfCosmeticsAllowed.Contains("LBAAK") || vrrig.concatStringOfCosmeticsAllowed.Contains("LBAAD"))
+                {
+                    try
+                    {
+
+                        VRRig plr = vrrig;
+                        NetPlayer player = GetPlayerFromVRRig(plr);
+                        if (player != null)
+                        {
+                            string text = "Room: " + PhotonNetwork.CurrentRoom.Name;
+                            float r = 0f;
+                            float g = 0f;
+                            float b = 0f;
+                            try
+                            {
+
+                                r = plr.playerColor.r * 255;
+                                g = plr.playerColor.r * 255;
+                                b = plr.playerColor.r * 255;
+                            }
+                            catch { UnityEngine.Debug.Log("Failed to log colors, rig most likely nonexistent"); }
+
+                            try
+                            {
+                                text += "\n====================================\n";
+                                text += string.Concat(new string[]
+                                {
+                                    "Player Name: \"",
+                                    player.NickName,
+                                    "\", Player ID: \"",
+                                    player.UserId,
+                                    "\", Player Color: (R: ",
+                                    r.ToString(),
+                                    ", G: ",
+                                    g.ToString(),
+                                    ", B: ",
+                                    b.ToString(),
+                                    ")"
+                                });
+                            }
+                            catch { UnityEngine.Debug.Log("Failed to log player"); }
+
+                            text += "\n====================================\n";
+                            text += "Text file generated with ii's Stupid Menu";
+                            string fileName = "iisStupidMenu/" + player.NickName + " - Anti Moderator.txt";
+                            if (!Directory.Exists("iisStupidMenu"))
+                            {
+                                Directory.CreateDirectory("iisStupidMenu");
+                            }
+                            File.WriteAllText(fileName, text);
+                        }
+                    }
+                    catch { }
+
+                    int i = 1;
+                    while (i <= 24)
+                    {
+                        NotifiLib.SendNotification("<color=grey>[</color><color=purple>ANTI-MODERATOR</color><color=grey>]</color> (" + i.ToString() + ") There is a moderator in your lobby. Their Player ID and Room Code have been saved to a file.");
+                        Thread.Sleep(2500);
+
+                        i++;
+                    }
                 }
             }
         }
