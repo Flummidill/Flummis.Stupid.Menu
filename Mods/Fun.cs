@@ -1893,7 +1893,6 @@ namespace iiMenu.Mods
             }
         }
 
-        private static int serializeFrame = -1;
         public static void RequestPieceMaster(int PieceType, Vector3 Position, Quaternion Rotation, Vector3 Velocity, BuilderPiece.State State)
         {
             if (!PhotonNetwork.IsMasterClient)
