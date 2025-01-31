@@ -1578,12 +1578,39 @@ namespace iiMenu.Mods
                     {
                         if (Vector3.Distance(GorillaTagger.Instance.bodyCollider.transform.position, vrrig.transform.position) < 3f)
                         {
-                            float distance = Vector3.Distance(vrrig.transform.position, GorillaTagger.Instance.bodyCollider.transform.position);
-                            Vector3 direction = (vrrig.transform.position - GorillaTagger.Instance.bodyCollider.transform.position).normalized;
-
                             BetaSpawnSnowball(vrrig.transform.position + Vector3.up * 0.25f, Vector3.down * ShootStrength * 5f, 5f, 1);
                             RPCProtection();
 
+                            anotdelay = Time.time + 0.1f;
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void GuardianSafetyBubble()
+        {
+            if (Time.time > anotdelay)
+            {
+                foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
+                {
+                    if (vrrig != GorillaTagger.Instance.offlineVRRig)
+                    {
+                        if (Vector3.Distance(GorillaTagger.Instance.bodyCollider.transform.position, vrrig.transform.position) < 3f)
+                        {
+                            BetaSetVelocityPlayer(GetPlayerFromVRRig(vrrig), Vector3.Normalize(vrrig.transform.position - GorillaTagger.Instance.bodyCollider.transform.position) * 5f);
+                            if (PhotonNetwork.InRoom)
+                            {
+                                GorillaTagger.Instance.myVRRig.SendRPC("RPC_PlayHandTap", RpcTarget.All, new object[]{
+                                    248,
+                                    false,
+                                    999999f
+                                });
+                            }
+                            else
+                            {
+                                GorillaTagger.Instance.offlineVRRig.PlayHandTapLocal(248, false, 999999f);
+                            }
                             anotdelay = Time.time + 0.1f;
                         }
                     }

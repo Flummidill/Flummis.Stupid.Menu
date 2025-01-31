@@ -455,6 +455,17 @@ namespace iiMenu.Mods
             }
         }
 
+        public static bool LogPlayerNames = false;
+        public static void EnableLogPlayerNames()
+        {
+            LogPlayerNames = true;
+        }
+
+        public static void DisableLogPlayerNames()
+        {
+            LogPlayerNames = false;
+        }
+
         public static void EnableACReportSelf()
         {
             AntiCheatSelf = true;

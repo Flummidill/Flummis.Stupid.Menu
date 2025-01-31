@@ -646,6 +646,7 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "No Respawn Bat", enableMethod =() => Fun.NoRespawnBat(), disableMethod =() => Fun.PleaseRespawnBat(), toolTip = "Doesn't respawn the bat if it goes too far outside the bounds of caves."},
                 new ButtonInfo { buttonText = "No Respawn Gliders", enableMethod =() => Fun.NoRespawnGliders(), disableMethod =() => Fun.PleaseRespawnGliders(), toolTip = "Doesn't respawn gliders that go too far outside the bounds of clouds."},
 
+                new ButtonInfo { buttonText = "Anti Grab", enableMethod =() => Fun.AntiGrab(), disableMethod =() => Fun.AntiGrabDisabled(), toolTip = "Prevents players from picking you up in guardian."},
                 new ButtonInfo { buttonText = "Anti Knockback", enableMethod =() => Fun.AntiKnockback(), disableMethod =() => Fun.AntiKnockbackDisabled(), toolTip = "Prevents players from knocking you back with snowballs."},
 
                 new ButtonInfo { buttonText = "Large Snowballs", enableMethod =() => Fun.LargeSnowballs(), disableMethod =() => Fun.LargeSnowballsDisabled(), toolTip = "Makes snowballs by default the largest size."},
@@ -654,6 +655,14 @@ namespace iiMenu.Menu
 
                 new ButtonInfo { buttonText = "Break Bug", enableMethod =() => Fun.BreakBug(), disableMethod =() => Fun.FixBug(), toolTip = "Makes the bug ungrabbable."},
                 new ButtonInfo { buttonText = "Break Bat", enableMethod =() => Fun.BreakBat(), disableMethod =() => Fun.FixBat(), toolTip = "Makes the bat ungrabbable."},
+
+                new ButtonInfo { buttonText = "Small Building", enableMethod =() => Fun.SmallBuilding(), disableMethod =() => Fun.BigBuilding(), toolTip = "Lets you build in the attic while small."},
+                new ButtonInfo { buttonText = "Multi Grab", method =() => Fun.MultiGrab(), toolTip = "Lets you grab multiple objects."},
+                new ButtonInfo { buttonText = "Attic Size Toggle", method =() => Fun.AtticSizeToggle(), toolTip = "Toggles your scale when pressing <color=green>grip</color> or <color=green>trigger</color>."},
+                new ButtonInfo { buttonText = "Grab All Nearby <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.GrabAllBlocksNearby(), toolTip = "Grabs every nearby building block when holding <color=green>G</color>."},
+                new ButtonInfo { buttonText = "Shotgun <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.Shotgun(), toolTip = "Spawns you a shotgun when you press <color=green>grip</color>."},
+                new ButtonInfo { buttonText = "Massive Block <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Fun.MassiveBlock(), toolTip = "Spawns you a massive block when you press <color=green>grip</color>."},
+                new ButtonInfo { buttonText = "Select Block Gun", method =() => Fun.SelectBlockGun(), toolTip = "Selects whatever building block your hand desires to be used for the building mods." },
 
                 new ButtonInfo { buttonText = "Spaz All Moles", method =() => Fun.SpazMoleMachines(), toolTip = "Gives the moles a seizure."},
                 new ButtonInfo { buttonText = "Auto Start Moles", method =() => Fun.AutoStartMoles(), toolTip = "Automatically starts the mole games."},
@@ -671,6 +680,7 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "Beach Ball Gun", method =() => Fun.BeachBallGun(), toolTip = "Moves the beach ball to wherever your hand desires." },
                 new ButtonInfo { buttonText = "Balloon Gun", method =() => Fun.BalloonGun(), toolTip = "Moves every single balloon cosmetic to wherever your hand desires." },
                 new ButtonInfo { buttonText = "Glider Gun", method =() => Fun.GliderGun(), toolTip = "Moves the gliders to wherever your hand desires." },
+                new ButtonInfo { buttonText = "Building Block Gun", method =() => Fun.BlocksGun(), toolTip = "Moves the building blocks to wherever your hand desires." },
 
                 new ButtonInfo { buttonText = "Spaz Bug", method =() => Fun.SpazBug(), toolTip = "Gives the bug a seizure." },
                 new ButtonInfo { buttonText = "Spaz Bat", method =() => Fun.SpazBat(), toolTip = "Gives the bat a seizure." },
@@ -683,6 +693,9 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "Orbit Beach Ball", method =() => Fun.BeachBallHalo(), toolTip = "Orbits the beach ball around you." },
                 new ButtonInfo { buttonText = "Orbit Balloons", method =() => Fun.OrbitBalloons(), toolTip = "Orbits the balloons around you." },
                 new ButtonInfo { buttonText = "Orbit Gliders", method =() => Fun.OrbitGliders(), toolTip = "Orbits the gliders around you." },
+                new ButtonInfo { buttonText = "Orbit Building Blocks", method =() => Fun.OrbitBlocks(), toolTip = "Orbits the building blocks around you." },
+                new ButtonInfo { buttonText = "Rain Building Blocks", method =() => Fun.RainBuildingBlocks(), toolTip = "Makes the building blocks fall around you like rain." },
+                new ButtonInfo { buttonText = "Building Block Aura", method =() => Fun.BuildingBlockAura(), toolTip = "Moves the building blocks around you at random positions." },
 
                 new ButtonInfo { buttonText = "Ride Bug", method =() => Fun.RideBug(), toolTip = "Repeatedly teleports you on top of the bug." },
                 new ButtonInfo { buttonText = "Ride Bat", method =() => Fun.RideBat(), toolTip = "Repeatedly teleports you on top of the bat." },
@@ -809,7 +822,20 @@ namespace iiMenu.Menu
 
                 new ButtonInfo { buttonText = "Master Check", method =() => Overpowered.MasterCheck(), isTogglable = false, toolTip = "Checks if you are master client."},
 
+                new ButtonInfo { buttonText = "Silent Guardian", method =() => Overpowered.SilentGuardian(), isTogglable = false, toolTip = "Makes you the guardian without scaling you up."},
+                new ButtonInfo { buttonText = "Guardian Self", method =() => Overpowered.GuardianSelf(), isTogglable = false, toolTip = "Makes you the guardian."},
+                new ButtonInfo { buttonText = "Guardian Gun", method =() => Overpowered.GuardianGun(), toolTip = "Makes whoever your hand desires the guardian."},
+                new ButtonInfo { buttonText = "Guardian All", method =() => Overpowered.GuardianAll(), isTogglable = false, toolTip = "Makes everyone in the lobby the guardian."},
+                new ButtonInfo { buttonText = "Unguardian Self", method =() => Overpowered.UnguardianSelf(), isTogglable = false, toolTip = "Removes you from the guardian position."},
+                new ButtonInfo { buttonText = "Unguardian Gun", method =() => Overpowered.UnguardianGun(), toolTip = "Removes whoever your hand desires from the guardian position."},
+                new ButtonInfo { buttonText = "Unguardian All", method =() => Overpowered.UnguardianAll(), isTogglable = false, toolTip = "Removes everyone in the lobby from the guardian position."},
+                new ButtonInfo { buttonText = "Guardian Spaz", method =() => Overpowered.GuardianSpaz(), toolTip = "Spams the guardian position for everyone in the lobby."},
+
                 //new ButtonInfo { buttonText = "Attic Serversided Blocks", method =() => Overpowered.AtticServersidedBlocks(), toolTip = "Lets you spawn and do anything with blocks in any map."},
+
+                new ButtonInfo { buttonText = "Unlimited Building", enableMethod =() => Fun.UnlimitedBuilding(), disableMethod =() => Fun.DisableUnlimitedBuilding(), toolTip = "Unlimits building, disabling drop zones and letting you place on people's plots." },
+                new ButtonInfo { buttonText = "Destroy Building Block Gun", method =() => Fun.DestroyBlockGun(), toolTip = "Shreds whatever building block your hand desires." },
+                new ButtonInfo { buttonText = "Destroy Building Blocks", method =() => Fun.DestroyBlocks(), toolTip = "Shreds every building block." },
 
                 //new ButtonInfo { buttonText = "Master Crash Gun", method =() => Overpowered.MasterCrashGun(), toolTip = "Crashes whoever your hand desires if you're master client."},
                 //new ButtonInfo { buttonText = "Master Crash All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Overpowered.MasterCrashAll(), toolTip = "Crashes everybody in the room when holding <color=green>trigger</color> if you're master client."},
@@ -884,6 +910,28 @@ namespace iiMenu.Menu
             new ButtonInfo[] { // Overpowered Mods [17]
                 new ButtonInfo { buttonText = "Exit Overpowered Mods", method =() => Settings.ReturnToMain(), isTogglable = false, toolTip = "Returns you back to the main page."},
 
+                new ButtonInfo { buttonText = "Always Guardian", method =() => Overpowered.AlwaysGuardian(), disableMethod =() => Movement.EnableRig(), toolTip = "Makes you always the guardian."},
+                new ButtonInfo { buttonText = "Guardian Grab Gun", method =() => Overpowered.GrabGun(), toolTip = "Grabs whoever your hand desires if you're the guardian you."},
+                new ButtonInfo { buttonText = "Guardian Grab All <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Overpowered.GrabAll(), toolTip = "Grabs everyone in the lobby if you're the guardian."},
+                new ButtonInfo { buttonText = "Guardian Release Gun", method =() => Overpowered.ReleaseGun(), toolTip = "Releases whoever your hand desires if you're the guardian."},
+                new ButtonInfo { buttonText = "Guardian Release All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Overpowered.ReleaseAll(), toolTip = "Releases everyone in the lobby if you're the guardian."},
+                new ButtonInfo { buttonText = "Guardian Fling Gun", method =() => Overpowered.FlingGun(), toolTip = "Flings whoever your hand desires."},
+                new ButtonInfo { buttonText = "Guardian Fling All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Overpowered.FlingAll(), toolTip = "Flings everyone in the lobby."},
+                new ButtonInfo { buttonText = "Guardian Bring Gun", method =() => Overpowered.BringGun(), toolTip = "Brings whoever your hand desires towards you."},
+                new ButtonInfo { buttonText = "Guardian Bring All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Overpowered.BringAll(), toolTip = "Brings everyone in the lobby towards you."},
+                new ButtonInfo { buttonText = "Guardian Player Gun", method =() => Overpowered.BringAllGun(), toolTip = "Brings everyone in the lobby towards wherever your hand desires."},
+                new ButtonInfo { buttonText = "Guardian Give Fly Gun", method =() => Overpowered.GiveFlyGun(), toolTip = "Gives whoever you want fly when they hold their right thumb down."},
+                new ButtonInfo { buttonText = "Guardian Give Fly All", method =() => Overpowered.GiveFlyAll(), toolTip = "Gives everyone in the lobby fly when they hold their right thumb down."},
+                new ButtonInfo { buttonText = "Guardian Safety Bubble", method =() => Overpowered.GuardianSafetyBubble(), toolTip = "Anyone who gets too close to you will be launched away."},
+                new ButtonInfo { buttonText = "Guardian Spaz Gun", method =() => Overpowered.SpazPlayerGun(), toolTip = "Spazzes out whoever your hand desires."},
+                new ButtonInfo { buttonText = "Guardian Spaz All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Overpowered.SpazAllPlayers(), toolTip = "Spazzes out everyone in the lobby."},
+                new ButtonInfo { buttonText = "Guardian Blind Gun", method =() => Overpowered.GuardianBlindGun(), toolTip = "Blinds whoever your hand desires if you're guardian."},
+                new ButtonInfo { buttonText = "Guardian Blind All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Overpowered.GuardianBlindAll(), toolTip = "Blinds everybody if you're guardian."},
+                new ButtonInfo { buttonText = "Guardian Break Movement Gun", method =() => Overpowered.GuardianBreakMovementGun(), toolTip = "Breaks the movement of whoever your hand desires if you're guardian."},
+                new ButtonInfo { buttonText = "Guardian Break Movement All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Overpowered.GuardianBreakMovementAll(), toolTip = "Breaks the movement of everybody if you're guardian."},
+                new ButtonInfo { buttonText = "Guardian Freeze Gun", method =() => Overpowered.PhysicalFreezeGun(), toolTip = "Freezes whoever your hand desires." },
+                new ButtonInfo { buttonText = "Guardian Freeze All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Overpowered.PhysicalFreezeAll(), toolTip = "Freezes everyone in the lobby when holding <color=green>trigger</color>." },
+
                 new ButtonInfo { buttonText = "Effect Spam Hands <color=grey>[</color><color=green>G</color><color=grey>]</color>", method =() => Overpowered.EffectSpamHands(), toolTip = "Spawns effects when holding <color=green>grip</color>."},
                 new ButtonInfo { buttonText = "Effect Spam Gun", method =() => Overpowered.EffectSpamGun(), toolTip = "Spawns effects wherever your hand desires."},
 
@@ -894,6 +942,8 @@ namespace iiMenu.Menu
 
                 new ButtonInfo { buttonText = "Force Unload Custom Map", method =() => Overpowered.ForceUnloadCustomMap(), isTogglable = false, toolTip = "Forcefully unloads the current custom map."},
                 new ButtonInfo { buttonText = "Virtual Stump Teleporter Effect Spammer <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Overpowered.VirtualStumpTeleporterEffectSpammer(), toolTip = "Kicks everybody in the custom map when holding <color=green>trigger</color>."},
+
+                new ButtonInfo { buttonText = "Attic Crash All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Overpowered.AtticCrashAll(), toolTip = "Crashes everybody inside of the attic."},
 
                 new ButtonInfo { buttonText = "Lag Gun", method =() => Overpowered.LagGun(), toolTip = "Lags whoever your hand desires."},
                 new ButtonInfo { buttonText = "Lag All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Overpowered.LagAll(), toolTip = "Lags everybody in the lobby when holding <color=green>trigger</color>."},
@@ -1015,50 +1065,8 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "Thin Tracers", toolTip = "Makes tracers thinner."},
             },
 
-            new ButtonInfo[] { // Admin Mods (admins only) [23]
+            new ButtonInfo[] { // Admin Mods [23]
                 new ButtonInfo { buttonText = "Exit Admin Mods", method =() => Settings.ReturnToMain(), isTogglable = false, toolTip = "Returns you back to the main page."},
-
-                new ButtonInfo { buttonText = "Get Menu Users", method =() => Experimental.GetMenuUsers(), isTogglable = false, toolTip = "Detects who is using the menu."},
-                new ButtonInfo { buttonText = "Menu User Name Tags", enableMethod =() => Experimental.EnableAdminMenuUserTags(), method =() => Experimental.AdminMenuUserTags(), disableMethod =() => Experimental.DisableAdminMenuUserTags(), toolTip = "Detects who is using the menu."},
-
-                new ButtonInfo { buttonText = "Admin Kick Gun", method =() => Experimental.AdminKickGun(), toolTip = "Kicks whoever your hand desires if they're using the menu."},
-                new ButtonInfo { buttonText = "Admin Kick All", method =() => Experimental.AdminKickAll(), isTogglable = false, toolTip = "Kicks everyone using the menu."},
-
-                new ButtonInfo { buttonText = "Admin Flip Menu Gun", method =() => Experimental.FlipMenuGun(), toolTip = "Flips the menu of whoever your hand desires if they're using the menu."},
-
-                new ButtonInfo { buttonText = "Admin Teleport Gun", method =() => Experimental.AdminTeleportGun(), toolTip = "Teleports whoever using the menu to wherever your hand desires."},
-                new ButtonInfo { buttonText = "Admin Fling Gun", method =() => Experimental.AdminFlingGun(), toolTip = "Flings whoever your hand desires upwards."},
-                new ButtonInfo { buttonText = "Admin Strangle", method =() => Experimental.AdminStrangle(), toolTip = "Strangles whoever you grab if they're using the menu."},
-                new ButtonInfo { buttonText = "Admin Fake Cosmetics", method =() => Experimental.AdminFakeCosmetics(), isTogglable = false, toolTip = "Makes everyone using the menu see whatever cosmetics you have on as if you owned them."},
-
-                new ButtonInfo { buttonText = "Admin Lightning Gun", method =() => Experimental.LightningGun(), toolTip = "Spawns lightning wherever your hand desires."},
-                new ButtonInfo { buttonText = "Admin Lightning Aura", method =() => Experimental.LightningAura(), toolTip = "Spawns lightning wherever your hand desires."},
-                new ButtonInfo { buttonText = "Admin Lightning Rain", method =() => Experimental.LightningRain(), toolTip = "Rains lightning around you and strikes whoever you hit."},
-
-                new ButtonInfo { buttonText = "Admin Laser", method =() => Experimental.AdminLaser(), toolTip = "Shines a red laser out of your hand when holding <color=green>A</color> or <color=green>X</color>."},
-                new ButtonInfo { buttonText = "Admin Beam <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Experimental.AdminBeam(), toolTip = "Shines a rainbow spinning laser out of your head when holding <color=green>trigger</color>."},
-
-                new ButtonInfo { buttonText = "Admin Fear Gun", method =() => Experimental.AdminFearGun(), toolTip = "Sends a person into pure fear and scarefulness."},
-                new ButtonInfo { buttonText = "Admin Object Gun", method =() => Experimental.AdminObjectGun(), toolTip = "Spawns an object wherever your hand desires."},
-                new ButtonInfo { buttonText = "Admin Notify Gun", method =() => Experimental.NotifyGun(), toolTip = "Sends a notification to whoever your hand desires. The notification text is based off of what you type into the search bar."},
-                new ButtonInfo { buttonText = "Admin Notify All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Experimental.NotifyAll(), toolTip = "Sends a notification to everyone using the menu. The notification text is based off of what you type into the search bar."},
-                new ButtonInfo { buttonText = "Admin Join Gun", method =() => Experimental.JoinGun(), toolTip = "Brings whoever your hand desires to a room. The room is based off of what you type into the search bar."},
-                new ButtonInfo { buttonText = "Admin Join All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Experimental.JoinAll(), toolTip = "Brings everyone using the menu to a room. The room is based off of what you type into the search bar."},
-                new ButtonInfo { buttonText = "Admin Network Scale", method =() => Experimental.AdminNetworkScale(), disableMethod =() => Experimental.UnAdminNetworkScale(), toolTip = "Networks your scale to others with the menu."},
-
-                new ButtonInfo { buttonText = "Admin Confirm Notification", method =() => Experimental.ConfirmNotifyAllUsing(), isTogglable = false, toolTip = "Sends a notification to everyone using the menu confirming that you're an admin."},
-
-                new ButtonInfo { buttonText = "Admin Levitate All", method =() => Experimental.FlyAllUsing(), toolTip = "Sends everyone using the menu flying away upwards."},
-                new ButtonInfo { buttonText = "Admin Bring Gun", method =() => Experimental.AdminBringGun(), toolTip = "Brings whoever your hand desires to you if they're using the menu."},
-                new ButtonInfo { buttonText = "Admin Bring All", method =() => Experimental.BringAllUsing(), toolTip = "Brings everyone using the menu to you."},
-                new ButtonInfo { buttonText = "Admin Bring Hand All", method =() => Experimental.BringHandAllUsing(), toolTip = "Brings everyone using the menu to your hand."},
-                new ButtonInfo { buttonText = "Admin Bring Head All", method =() => Experimental.BringHeadAllUsing(), toolTip = "Brings everyone using the menu to your head."},
-                new ButtonInfo { buttonText = "Admin Orbit All", method =() => Experimental.OrbitAllUsing(), toolTip = "Makes everyone using the menu orbit you."},
-
-                new ButtonInfo { buttonText = "Admin Force Soundboard", method =() => Experimental.AdminSoundMicGun(), toolTip = "Plays a sound through whoever your hand desires' microphone if they're using the menu."},
-                new ButtonInfo { buttonText = "Admin Force Local Sound", method =() => Experimental.AdminSoundLocalGun(), toolTip = "Plays a sound through whoever your hand desires' headset if they're using the menu."},
-
-                new ButtonInfo { buttonText = "No Admin Indicator", enableMethod =() => Experimental.EnableNoAdminIndicator(), method =() => Experimental.NoAdminIndicator(), disableMethod =() => Experimental.AdminIndicatorBack(), toolTip = "Disables the cone that appears above your head to others with the menu."},
             },
 
             new ButtonInfo[] { // Enabled Mods [24]
@@ -1098,6 +1106,8 @@ namespace iiMenu.Menu
 
             new ButtonInfo[] { // Safety (in settings) [28]
                 new ButtonInfo { buttonText = "Exit Safety Settings", method =() => Settings.EnableSettings(), isTogglable = false, toolTip = "Returns you back to the settings menu."},
+
+                new ButtonInfo { buttonText = "Log Player Names", enableMethod =() => Safety.EnableLogPlayerNames(), disableMethod =() => Safety.DisableLogPlayerNames(), toolTip = "Logs Player Names on Join/Leave (iisStupidMenu/iiMenu_PlayerLog.txt)."},
 
                 new ButtonInfo { buttonText = "carrg", overlapText = "Change Anti Report Distance <color=grey>[</color><color=green>Normal</color><color=grey>]</color>", method =() => Safety.ChangeAntiReportRange(), isTogglable = false, toolTip = "Changes the distance threshold for the anti report mods."},
                 new ButtonInfo { buttonText = "Visualize Anti Report", toolTip = "Visualizes the distance threshold for the anti report mods."},

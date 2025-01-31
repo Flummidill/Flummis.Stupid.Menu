@@ -5399,14 +5399,6 @@ namespace iiMenu.Menu
                 }
             } catch { }
             PhotonNetwork.NetworkingClient.EventReceived += EventReceived;
-            try
-            {
-                if (!GameObject.Find("elo_snoc_ii")) // Makes sure Admin mods do not activate twice
-                {
-                    new GameObject("elo_snoc_ii");
-                    PhotonNetwork.NetworkingClient.EventReceived += Experimental.Console;
-                }
-            } catch { PhotonNetwork.NetworkingClient.EventReceived += Experimental.Console; } // it's worth a shot
             shouldLoadDataTime = Time.time + 5f;
             timeMenuStarted = Time.time;
             shouldAttemptLoadData = true;
