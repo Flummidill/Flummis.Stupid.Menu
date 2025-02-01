@@ -2027,7 +2027,7 @@ namespace iiMenu.Menu
                 }
             }.AddComponent<Text>();
             text.font = activeFont;
-            text.text = "ii's <b>Stupid</b> Menu";
+            text.text = "Flummis Modified Stupid Menu";
             if (doCustomName)
             {
                 text.text = customMenuName;
@@ -2042,6 +2042,7 @@ namespace iiMenu.Menu
                     "WM TROLLING MENU",
                     "ShibaGT Dark",
                     "ShibaGT-X v5.5",
+                    "Papa Menu 476",
                     "bvunt menu",
                     "GorillaTaggingKid Menu",
                     "fart",
