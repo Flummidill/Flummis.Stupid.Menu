@@ -598,6 +598,7 @@ namespace iiMenu.Mods
             }
         }
 
+        /*
         private static float scDelay = 0f;
         public static void SizeChanger()
         {
@@ -618,6 +619,7 @@ namespace iiMenu.Mods
 
             GorillaTagger.Instance.myVRRig.SendRPC("RPC_UpdateNativeSize", RpcTarget.Others, new object[] { 1f });
         }
+        */
 
         private static Coroutine DisableCoroutine;
         private static IEnumerator DisableSnowball(bool rigDisabled)
