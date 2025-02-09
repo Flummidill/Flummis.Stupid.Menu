@@ -1905,6 +1905,13 @@ namespace iiMenu.Mods
             GameObject.Find("Cave Bat Holdable").GetComponent<ThrowableBug>().allowPlayerStealing = false;
         }
 
+        public static void MultiGrab()
+        {
+            BuilderPieceInteractor.instance.handState[1] = BuilderPieceInteractor.HandState.Empty;
+            BuilderPieceInteractor.instance.heldPiece[1] = null;
+        }
+
+        /*
         public static void SmallBuilding()
         {
             Patches.BuildPatch.isEnabled = true;
@@ -1915,18 +1922,12 @@ namespace iiMenu.Mods
             Patches.BuildPatch.isEnabled = false;
         }
 
-        public static void MultiGrab()
-        {
-            BuilderPieceInteractor.instance.handState[1] = BuilderPieceInteractor.HandState.Empty;
-            BuilderPieceInteractor.instance.heldPiece[1] = null;
-        }
-
-        /*
         public static void PieceNameHelper()
         {
             if (BuilderPieceInteractor.instance.handState[1] == BuilderPieceInteractor.HandState.Grabbed)
                 NotifiLib.SendNotification(BuilderPieceInteractor.instance.heldPiece[1].name + " type " + BuilderPieceInteractor.instance.heldPiece[1].pieceType);
-        }*/
+        }
+        */
 
         public static int pieceId = -1;
         public static IEnumerator CreateGetPiece(int pieceType, Action<BuilderPiece> onComplete)
