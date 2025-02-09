@@ -2027,7 +2027,7 @@ namespace iiMenu.Menu
                 }
             }.AddComponent<Text>();
             text.font = activeFont;
-            text.text = "Flummis Modified Stupid Menu";
+            text.text = "Flummi's Modified Stupid Menu";
             if (doCustomName)
             {
                 text.text = customMenuName;
@@ -2036,7 +2036,7 @@ namespace iiMenu.Menu
             {
                 string[] randomMenuNames = new string[]
                 {
-                    "ModderX",
+                    "XXX_Modder_XXX",
                     "ShibaGT Gold",
                     "Kman Menu",
                     "WM TROLLING MENU",
@@ -2044,8 +2044,9 @@ namespace iiMenu.Menu
                     "ShibaGT-X v5.5",
                     "Papa Menu 476",
                     "bvunt menu",
-                    "GorillaTaggingKid Menu",
-                    "fart",
+                    "Minigames Menu",
+                    "Fart Menu",
+                    "Aspect Cheat Panel",
                     "steal.lol"
                 };
                 if (UnityEngine.Random.Range(1, 5) == 2)
