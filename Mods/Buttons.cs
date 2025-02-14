@@ -955,6 +955,8 @@ namespace iiMenu.Menu
 
                 new ButtonInfo { buttonText = "Monke Blocks Crash All <color=grey>[</color><color=green>T</color><color=grey>]</color>", method =() => Overpowered.AtticCrashAll(), toolTip = "Crashes everybody inside of Monke Blocks."},
 
+                new ButtonInfo { buttonText = "Serversided Size Changer", method =() => Overpowered.SizeChanger(), enableMethod =() => Overpowered.SizeChanger(), disableMethod =() => Movement.DisableSizeChanger(), toolTip = "Increase your size by holding <color=green>trigger</color>, and decrease your size by holding <color=green>grip</color>. Everyone can see you grow or shrink."},
+
                 new ButtonInfo { buttonText = "Snowball Airstrike Gun", method =() => Overpowered.SnowballAirstrikeGun(), toolTip = "Spawns a snowball airstrike wherever your hand desires."},
                 new ButtonInfo { buttonText = "Snowball Gun", method =() => Overpowered.SnowballGun(), toolTip = "Spawns a snowball wherever your hand desires."},
 

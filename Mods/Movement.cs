@@ -2618,6 +2618,7 @@ namespace iiMenu.Mods
             }
 
             GorillaTagger.Instance.offlineVRRig.transform.localScale = Vector3.one * sizeScale;
+            GorillaTagger.Instance.offlineVRRig.NativeScale = sizeScale;
             typeof(GorillaLocomotion.Player).GetField("nativeScale", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(GorillaLocomotion.Player.Instance, sizeScale);
         }
 
@@ -2626,6 +2627,7 @@ namespace iiMenu.Mods
             sizeScale = 1f;
 
             GorillaTagger.Instance.offlineVRRig.transform.localScale = Vector3.one * sizeScale;
+            GorillaTagger.Instance.offlineVRRig.NativeScale = sizeScale;
             typeof(GorillaLocomotion.Player).GetField("nativeScale", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(GorillaLocomotion.Player.Instance, sizeScale);
         }
 
