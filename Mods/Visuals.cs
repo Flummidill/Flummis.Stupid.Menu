@@ -1,13 +1,18 @@
 ﻿using GorillaExtensions;
 using GorillaNetworking;
 using iiMenu.Classes;
+using iiMenu.Notifications;
+using Pathfinding.RVO;
 using Photon.Pun;
+using Photon.Voice.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UIElements;
 using static iiMenu.Menu.Main;
 
 namespace iiMenu.Mods
@@ -58,7 +63,8 @@ namespace iiMenu.Mods
                 {
                     Physics.Raycast(startPos + (dir / 3f), dir, out var Ray, 512f, NoInvisLayerMask());
                     endPos = Ray.point;
-                } catch { }
+                }
+                catch { }
                 liner.SetPosition(0, startPos + (dir * 0.1f));
                 liner.SetPosition(1, endPos);
                 liner.material.shader = Shader.Find("GUI/Text Shader");
@@ -90,7 +96,7 @@ namespace iiMenu.Mods
             regwatchobject = UnityEngine.Object.Instantiate(mainwatch, rightHand ? GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/RigAnchor/rig/body/shoulder.R/upper_arm.R/forearm.R/hand.R").transform : GameObject.Find("Player Objects/Local VRRig/Local Gorilla Player/RigAnchor/rig/body/shoulder.L/upper_arm.L/forearm.L/hand.L").transform, false);
             UnityEngine.Object.Destroy(regwatchobject.GetComponent<GorillaHuntComputer>());
             regwatchobject.SetActive(true);
-            
+
             Transform thething = regwatchobject.transform.Find("HuntWatch_ScreenLocal/Canvas/Anchor");
             thething.Find("Hat").gameObject.SetActive(false);
             thething.Find("Face").gameObject.SetActive(false);
@@ -185,7 +191,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             Color bgcolor = Color.green;
@@ -234,7 +240,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             Color bgcolor = Color.blue;
@@ -283,7 +289,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             Color bgcolor = Color.red;
@@ -332,11 +338,11 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             GameObject go = new GameObject("Lbl");
-            if (GetIndex("Hidden Labels").enabled) { go.layer = 19; }
+            if (GetIndex("Hidden on Camera").enabled) { go.layer = 19; }
             go.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
             TextMesh textMesh = go.AddComponent<TextMesh>();
             textMesh.color = GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity.magnitude >= GorillaLocomotion.Player.Instance.maxJumpSpeed ? Color.green : Color.white;
@@ -366,7 +372,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             if (PhotonNetwork.InRoom)
@@ -394,7 +400,7 @@ namespace iiMenu.Mods
                     lastWasTagged = playerIsTagged;
 
                     GameObject go = new GameObject("Lbl");
-                    if (GetIndex("Hidden Labels").enabled) { go.layer = 19; }
+                    if (GetIndex("Hidden on Camera").enabled) { go.layer = 19; }
                     go.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
                     TextMesh textMesh = go.AddComponent<TextMesh>();
                     textMesh.color = PlayerIsTagged(GorillaTagger.Instance.offlineVRRig) ? Color.green : Color.white;
@@ -429,7 +435,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             if (!PlayerIsTagged(GorillaTagger.Instance.offlineVRRig))
@@ -462,7 +468,7 @@ namespace iiMenu.Mods
                         colorn = Color.red;
                     }
                     GameObject go = new GameObject("Lbl");
-                    if (GetIndex("Hidden Labels").enabled) { go.layer = 19; }
+                    if (GetIndex("Hidden on Camera").enabled) { go.layer = 19; }
                     go.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
                     TextMesh textMesh = go.AddComponent<TextMesh>();
                     textMesh.color = colorn;
@@ -491,7 +497,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             bool isThereTagged = false;
@@ -507,7 +513,7 @@ namespace iiMenu.Mods
             if (PhotonNetwork.InRoom && isThereTagged)
             {
                 GameObject go = new GameObject("Lbl");
-                if (GetIndex("Hidden Labels").enabled) { go.layer = 19; }
+                if (GetIndex("Hidden on Camera").enabled) { go.layer = 19; }
                 go.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
                 TextMesh textMesh = go.AddComponent<TextMesh>();
                 textMesh.color = left <= 1 && !PlayerIsTagged(GorillaTagger.Instance.offlineVRRig) ? Color.green : Color.white;
@@ -581,7 +587,7 @@ namespace iiMenu.Mods
         public static void VisualizeNetworkTriggers()
         {
             GameObject triggers = GameObject.Find("Environment Objects/TriggerZones_Prefab/JoinRoomTriggers_Prefab");
-            for (int i=0; i<triggers.transform.childCount; i++)
+            for (int i = 0; i < triggers.transform.childCount; i++)
             {
                 try
                 {
@@ -590,7 +596,8 @@ namespace iiMenu.Mods
                     {
                         VisualizeCube(child.position, child.rotation, child.localScale, Color.red);
                     }
-                } catch { }
+                }
+                catch { }
             }
         }
 
@@ -606,7 +613,8 @@ namespace iiMenu.Mods
                     {
                         VisualizeCube(child.position, child.rotation, child.localScale, GetBGColor(0f));
                     }
-                } catch { }
+                }
+                catch { }
             }
         }
 
@@ -635,7 +643,7 @@ namespace iiMenu.Mods
                         textMesh.characterSize = 0.1f;
                         textMesh.anchor = TextAnchor.MiddleCenter;
                         textMesh.alignment = TextAlignment.Center;
-                        
+
                         nametags.Add(vrrig, go);
                     }
 
@@ -670,7 +678,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             GameObject playspaceCenter = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -740,6 +748,7 @@ namespace iiMenu.Mods
             leaves.Clear();
         }
 
+        /*
         public static void EnableStreamerRemoveLeaves()
         {
             foreach (GameObject g in Resources.FindObjectsOfTypeAll<GameObject>())
@@ -761,7 +770,6 @@ namespace iiMenu.Mods
             leaves.Clear();
         }
 
-        /*
         public static void EnableRemoveCherryBlossoms()
         {
             foreach (GameObject g in Resources.FindObjectsOfTypeAll<GameObject>())
@@ -843,7 +851,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
@@ -900,7 +908,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
@@ -944,7 +952,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
@@ -1021,7 +1029,7 @@ namespace iiMenu.Mods
             UnityEngine.Object.Destroy(r.GetComponent<SphereCollider>());
 
             r.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-            
+
             UpdateLimbColor();
         }
 
@@ -1053,7 +1061,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             float lineWidth = GetIndex("Thin Tracers").enabled ? 0.0075f : 0.025f;
@@ -1086,7 +1094,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             float lineWidth = GetIndex("Thin Tracers").enabled ? 0.0075f : 0.025f;
@@ -1174,7 +1182,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             float lineWidth = GetIndex("Thin Tracers").enabled ? 0.0075f : 0.025f;
@@ -1223,7 +1231,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
@@ -1235,6 +1243,7 @@ namespace iiMenu.Mods
                 {
                     LineRenderer liner = vrrig.head.rigTarget.gameObject.GetOrAddComponent<LineRenderer>();
                     if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
+
                     liner.startWidth = 0.025f;
                     liner.endWidth = 0.025f;
 
@@ -1250,6 +1259,7 @@ namespace iiMenu.Mods
                     for (int i = 0; i < bones.Count<int>(); i += 2)
                     {
                         liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
+                        if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
 
                         liner.startWidth = 0.025f;
                         liner.endWidth = 0.025f;
@@ -1278,7 +1288,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             bool isInfectedPlayers = false;
@@ -1303,6 +1313,7 @@ namespace iiMenu.Mods
                         {
                             LineRenderer liner = vrrig.head.rigTarget.gameObject.GetOrAddComponent<LineRenderer>();
                             if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
+
                             liner.startWidth = 0.025f;
                             liner.endWidth = 0.025f;
 
@@ -1318,6 +1329,7 @@ namespace iiMenu.Mods
                             for (int i = 0; i < bones.Count<int>(); i += 2)
                             {
                                 liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
+                                if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
 
                                 liner.startWidth = 0.025f;
                                 liner.endWidth = 0.025f;
@@ -1434,7 +1446,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             GorillaHuntManager sillyComputer = GorillaGameManager.instance.gameObject.GetOrAddComponent<GorillaHuntManager>();
@@ -1449,6 +1461,7 @@ namespace iiMenu.Mods
                     if (GetIndex("Transparent Theme").enabled) { thecolor.a = 0.5f; }
                     LineRenderer liner = vrrig.head.rigTarget.gameObject.GetOrAddComponent<LineRenderer>();
                     if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
+
                     liner.startWidth = 0.025f;
                     liner.endWidth = 0.025f;
 
@@ -1464,6 +1477,7 @@ namespace iiMenu.Mods
                     for (int i = 0; i < bones.Count<int>(); i += 2)
                     {
                         liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
+                        if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
 
                         liner.startWidth = 0.025f;
                         liner.endWidth = 0.025f;
@@ -1485,6 +1499,7 @@ namespace iiMenu.Mods
                     if (GetIndex("Transparent Theme").enabled) { thecolor.a = 0.5f; }
                     LineRenderer liner = vrrig.head.rigTarget.gameObject.GetOrAddComponent<LineRenderer>();
                     if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
+
                     liner.startWidth = 0.025f;
                     liner.endWidth = 0.025f;
 
@@ -1500,6 +1515,7 @@ namespace iiMenu.Mods
                     for (int i = 0; i < bones.Count<int>(); i += 2)
                     {
                         liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
+                        if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
 
                         liner.startWidth = 0.025f;
                         liner.endWidth = 0.025f;
@@ -1627,7 +1643,9 @@ namespace iiMenu.Mods
                     vrrig.mainSkin.material.color = vrrig.playerColor;
                     if (GetIndex("Follow Menu Theme").enabled) { vrrig.mainSkin.material.color = GetBGColor(0f); }
                     if (GetIndex("Transparent Theme").enabled) { vrrig.mainSkin.material.color = new Color(vrrig.mainSkin.material.color.r, vrrig.mainSkin.material.color.g, vrrig.mainSkin.material.color.b, 0.5f); }
-                } else {
+                }
+                else
+                {
                     if (sillyComputer.GetTargetOf(player) == (NetPlayer)PhotonNetwork.LocalPlayer)
                     {
                         vrrig.mainSkin.material.shader = Shader.Find("GUI/Text Shader");
@@ -1663,7 +1681,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
@@ -1695,7 +1713,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             bool isInfectedPlayers = false;
@@ -1782,7 +1800,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             GorillaHuntManager sillyComputer = GorillaGameManager.instance.gameObject.GetComponent<GorillaHuntManager>();
@@ -1830,7 +1848,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
@@ -1844,7 +1862,7 @@ namespace iiMenu.Mods
                     if (GetIndex("Hidden on Camera").enabled) { box.layer = 19; }
                     box.transform.position = vrrig.transform.position;
                     UnityEngine.Object.Destroy(box.GetComponent<BoxCollider>());
-                    box.transform.localScale = new Vector3(0.5f,0.5f,0f);
+                    box.transform.localScale = new Vector3(0.5f, 0.5f, 0f);
                     box.transform.LookAt(GorillaTagger.Instance.headCollider.transform.position);
                     box.GetComponent<Renderer>().material.shader = Shader.Find("GUI/Text Shader");
                     box.GetComponent<Renderer>().material.color = thecolor;
@@ -1863,7 +1881,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             bool isInfectedPlayers = false;
@@ -1953,7 +1971,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             GorillaHuntManager sillyComputer = GorillaGameManager.instance.gameObject.GetComponent<GorillaHuntManager>();
@@ -2003,7 +2021,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
@@ -2076,7 +2094,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             bool isInfectedPlayers = false;
@@ -2286,7 +2304,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             GorillaHuntManager sillyComputer = GorillaGameManager.instance.gameObject.GetComponent<GorillaHuntManager>();
@@ -2544,7 +2562,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             foreach (VRRig vrrig in GorillaParent.instance.vrrigs)
@@ -2559,6 +2577,7 @@ namespace iiMenu.Mods
                     if (GetIndex("Transparent Theme").enabled) { thecolor2.a = 0.5f; }
                     GameObject go = new GameObject("Dist");
                     if (GetIndex("Hidden on Camera").enabled) { go.layer = 19; }
+
                     TextMesh textMesh = go.AddComponent<TextMesh>();
                     textMesh.fontSize = 18;
                     textMesh.fontStyle = activeFontStyle;
@@ -2569,6 +2588,8 @@ namespace iiMenu.Mods
                     go.transform.position = vrrig.transform.position + new Vector3(0f, -0.2f, 0f);
                     textMesh.text = string.Format("{0:F1}m", Vector3.Distance(Camera.main.transform.position, vrrig.transform.position));
                     GameObject bg = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    if (GetIndex("Hidden on Camera").enabled) { bg.layer = 19; }
+
                     UnityEngine.Object.Destroy(bg.GetComponent<Collider>());
                     bg.transform.parent = go.transform;
                     bg.transform.localPosition = Vector3.zero;
@@ -2593,7 +2614,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             bool isInfectedPlayers = false;
@@ -2621,6 +2642,7 @@ namespace iiMenu.Mods
                             if (GetIndex("Transparent Theme").enabled) { thecolor2.a = 0.5f; }
                             GameObject go = new GameObject("Dist");
                             if (GetIndex("Hidden on Camera").enabled) { go.layer = 19; }
+
                             TextMesh textMesh = go.AddComponent<TextMesh>();
                             textMesh.fontSize = 18;
                             textMesh.fontStyle = activeFontStyle;
@@ -2631,6 +2653,8 @@ namespace iiMenu.Mods
                             go.transform.position = vrrig.transform.position + new Vector3(0f, -0.2f, 0f);
                             textMesh.text = string.Format("{0:F1}m", Vector3.Distance(Camera.main.transform.position, vrrig.transform.position));
                             GameObject bg = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                            if (GetIndex("Hidden on Camera").enabled) { bg.layer = 19; }
+
                             UnityEngine.Object.Destroy(bg.GetComponent<Collider>());
                             bg.transform.parent = go.transform;
                             bg.transform.localPosition = Vector3.zero;
@@ -2658,6 +2682,7 @@ namespace iiMenu.Mods
                             if (GetIndex("Transparent Theme").enabled) { thecolor2.a = 0.5f; }
                             GameObject go = new GameObject("Dist");
                             if (GetIndex("Hidden on Camera").enabled) { go.layer = 19; }
+
                             TextMesh textMesh = go.AddComponent<TextMesh>();
                             textMesh.fontSize = 18;
                             textMesh.fontStyle = activeFontStyle;
@@ -2668,6 +2693,8 @@ namespace iiMenu.Mods
                             go.transform.position = vrrig.transform.position + new Vector3(0f, -0.2f, 0f);
                             textMesh.text = string.Format("{0:F1}m", Vector3.Distance(Camera.main.transform.position, vrrig.transform.position));
                             GameObject bg = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                            if (GetIndex("Hidden on Camera").enabled) { bg.layer = 19; }
+
                             UnityEngine.Object.Destroy(bg.GetComponent<Collider>());
                             bg.transform.parent = go.transform;
                             bg.transform.localPosition = Vector3.zero;
@@ -2731,7 +2758,7 @@ namespace iiMenu.Mods
                         return;
                 }
                 else
-                    { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
+                { PerformanceVisualDelay = Time.time + PerformanceModeStep; DelayChangeStep = Time.frameCount; }
             }
 
             GorillaHuntManager sillyComputer = GorillaGameManager.instance.gameObject.GetComponent<GorillaHuntManager>();
@@ -2759,6 +2786,8 @@ namespace iiMenu.Mods
                     go.transform.position = vrrig.transform.position + new Vector3(0f, -0.2f, 0f);
                     textMesh.text = string.Format("{0:F1}m", Vector3.Distance(Camera.main.transform.position, vrrig.transform.position));
                     GameObject bg = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    if (GetIndex("Hidden on Camera").enabled) { bg.layer = 19; }
+
                     UnityEngine.Object.Destroy(bg.GetComponent<Collider>());
                     bg.transform.parent = go.transform;
                     bg.transform.localPosition = Vector3.zero;
@@ -2790,6 +2819,8 @@ namespace iiMenu.Mods
                     go.transform.position = vrrig.transform.position + new Vector3(0f, -0.2f, 0f);
                     textMesh.text = string.Format("{0:F1}m", Vector3.Distance(Camera.main.transform.position, vrrig.transform.position));
                     GameObject bg = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    if (GetIndex("Hidden on Camera").enabled) { bg.layer = 19; }
+
                     UnityEngine.Object.Destroy(bg.GetComponent<Collider>());
                     bg.transform.parent = go.transform;
                     bg.transform.localPosition = Vector3.zero;
