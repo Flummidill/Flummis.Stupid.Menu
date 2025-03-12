@@ -730,6 +730,58 @@ namespace iiMenu.Menu
                     }
                     catch { }
 
+                    // Highlight Selected Ropes
+                    if (Overpowered.selectedRopes.Count != 0)
+                    {
+                        List<Transform> ropeBones = new List<Transform>();
+                        foreach (GorillaRopeSwing rope in Overpowered.selectedRopes)
+                        {
+                            if (rope != null)
+                            {
+                                ropeBones = new List<Transform>();
+
+                                if (rope.gameObject.GetComponentInChildren<Transform>() != null)
+                                {
+                                    foreach (Transform bone in rope.gameObject.GetComponentInChildren<Transform>())
+                                    {
+                                        if (bone.gameObject.name.StartsWith("RopeBone_"))
+                                        {
+                                            ropeBones.Add(bone.gameObject.transform);
+                                        }
+                                    }
+                                }
+
+                                Transform prevBone = null;
+                                foreach (Transform bone in ropeBones)
+                                {
+                                    if (!(bone.name == "RopeBone_00"))
+                                    {
+                                        GameObject line = new GameObject("Line");
+                                        if (GetIndex("Hidden on Camera").enabled) { line.layer = 19; }
+
+                                        LineRenderer liner = line.AddComponent<LineRenderer>();
+                                        liner.startColor = GetBGColor(0f);
+                                        liner.endColor = GetBGColor(0f);
+                                        liner.startWidth = 0.025f;
+                                        liner.endWidth = 0.025f;
+                                        liner.positionCount = 2;
+                                        liner.useWorldSpace = true;
+                                        liner.SetPosition(0, prevBone.transform.position);
+                                        liner.SetPosition(1, bone.transform.position);
+                                        liner.material.shader = Shader.Find("GUI/Text Shader");
+                                        UnityEngine.Object.Destroy(line, Time.deltaTime);
+                                    }
+
+                                    prevBone = bone;
+                                }
+                            }
+                            else
+                            {
+                                Overpowered.selectedRopes.Remove(rope);
+                            }
+                        }
+                    }
+
                     // Admin indicator
                     if (PhotonNetwork.InRoom)
                     {
@@ -1965,7 +2017,6 @@ namespace iiMenu.Menu
             canvasObj = new GameObject();
             canvasObj.transform.parent = menu.transform;
             Canvas canvas = canvasObj.AddComponent<Canvas>();
-            if (GetIndex("Hide Text on Camera").enabled) { canvasObj.layer = 19; }
             CanvasScaler canvasScaler = canvasObj.AddComponent<CanvasScaler>();
             canvasObj.AddComponent<GraphicRaycaster>();
             canvas.renderMode = RenderMode.WorldSpace;
@@ -1983,7 +2034,7 @@ namespace iiMenu.Menu
                 }
             }.AddComponent<Text>();
             text.font = activeFont;
-            text.text = "ii's <b>Stupid</b> Menu";
+            text.text = "Flummi's Modified Stupid Menu";
             if (doCustomName)
             {
                 text.text = customMenuName;
@@ -1993,6 +2044,7 @@ namespace iiMenu.Menu
                 string[] randomMenuNames = new string[]
                 {
                     "ModderX",
+                    "XXX_Modder_XXX",
                     "ShibaGT Gold",
                     "Kman Menu",
                     "WM TROLLING MENU",
@@ -2000,8 +2052,14 @@ namespace iiMenu.Menu
                     "ShibaGT-X v5.5",
                     "bvunt menu",
                     "GorillaTaggingKid Menu",
-                    "fart",
-                    "steal.lol"
+                    "Fart Menu V4",
+                    "Papa Menu 476",
+                    "Ubuntus Custom V6.1",
+                    "Minigames Menu",
+                    "Fart Menu",
+                    "Aspect Cheat Panel",
+                    "steal.lol",
+                    "ShibaGT Genisis"
                 };
                 if (UnityEngine.Random.Range(1, 5) == 2)
                 {
@@ -3609,6 +3667,7 @@ namespace iiMenu.Menu
             }
 
             GameObject NewPointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            if (GetIndex("Hidden on Camera").enabled) { NewPointer.layer = 19; }
             NewPointer.GetComponent<Renderer>().material.shader = Shader.Find("GUI/Text Shader");
             NewPointer.GetComponent<Renderer>().material.color = (isCopying || GetGunInput(true)) ? GetBDColor(0f) : GetBRColor(0f);
             NewPointer.transform.localScale = smallGunPointer ? new Vector3(0.1f, 0.1f, 0.1f) : new Vector3(0.2f, 0.2f, 0.2f);
@@ -3625,6 +3684,7 @@ namespace iiMenu.Menu
             if (!disableGunLine)
             {
                 GameObject line = new GameObject("Line");
+                if (GetIndex("Hidden on Camera").enabled) { line.layer = 19; }
                 LineRenderer liner = line.AddComponent<LineRenderer>();
                 liner.material.shader = Shader.Find("GUI/Text Shader");
                 liner.startColor = GetBGColor(0f);
@@ -5643,14 +5703,7 @@ namespace iiMenu.Menu
                 }
             } catch { }
             PhotonNetwork.NetworkingClient.EventReceived += EventReceived;
-            try
-            {
-                if (!GameObject.Find("elo_snoc_ii")) // Makes sure Admin mods do not activate twice
-                {
-                    new GameObject("elo_snoc_ii");
-                    PhotonNetwork.NetworkingClient.EventReceived += Experimental.Console;
-                }
-            } catch { PhotonNetwork.NetworkingClient.EventReceived += Experimental.Console; } // it's worth a shot
+
             shouldLoadDataTime = Time.time + 5f;
             timeMenuStarted = Time.time;
             shouldAttemptLoadData = true;

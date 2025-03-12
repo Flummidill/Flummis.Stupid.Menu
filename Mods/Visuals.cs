@@ -266,7 +266,7 @@ namespace iiMenu.Mods
             }
 
             GameObject go = new GameObject("Lbl");
-            if (GetIndex("Hidden Labels").enabled) { go.layer = 19; }
+            if (GetIndex("Hidden on Camera").enabled) { go.layer = 19; }
             go.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
             TextMesh textMesh = go.AddComponent<TextMesh>();
             textMesh.color = GorillaLocomotion.Player.Instance.GetComponent<Rigidbody>().velocity.magnitude >= GorillaLocomotion.Player.Instance.maxJumpSpeed ? Color.green : Color.white;
@@ -324,7 +324,7 @@ namespace iiMenu.Mods
                     lastWasTagged = playerIsTagged;
 
                     GameObject go = new GameObject("Lbl");
-                    if (GetIndex("Hidden Labels").enabled) { go.layer = 19; }
+                    if (GetIndex("Hidden on Camera").enabled) { go.layer = 19; }
                     go.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
                     TextMesh textMesh = go.AddComponent<TextMesh>();
                     textMesh.color = PlayerIsTagged(GorillaTagger.Instance.offlineVRRig) ? Color.green : Color.white;
@@ -392,7 +392,7 @@ namespace iiMenu.Mods
                         colorn = Color.red;
                     }
                     GameObject go = new GameObject("Lbl");
-                    if (GetIndex("Hidden Labels").enabled) { go.layer = 19; }
+                    if (GetIndex("Hidden on Camera").enabled) { go.layer = 19; }
                     go.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
                     TextMesh textMesh = go.AddComponent<TextMesh>();
                     textMesh.color = colorn;
@@ -437,7 +437,7 @@ namespace iiMenu.Mods
             if (PhotonNetwork.InRoom && isThereTagged)
             {
                 GameObject go = new GameObject("Lbl");
-                if (GetIndex("Hidden Labels").enabled) { go.layer = 19; }
+                if (GetIndex("Hidden on Camera").enabled) { go.layer = 19; }
                 go.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
                 TextMesh textMesh = go.AddComponent<TextMesh>();
                 textMesh.color = left <= 1 && !PlayerIsTagged(GorillaTagger.Instance.offlineVRRig) ? Color.green : Color.white;
@@ -1103,6 +1103,8 @@ namespace iiMenu.Mods
                     {
                         liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
 
+                        if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
+
                         liner.startWidth = 0.025f;
                         liner.endWidth = 0.025f;
 
@@ -1171,6 +1173,8 @@ namespace iiMenu.Mods
                             {
                                 liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
 
+                                if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
+
                                 liner.startWidth = 0.025f;
                                 liner.endWidth = 0.025f;
 
@@ -1213,6 +1217,8 @@ namespace iiMenu.Mods
                             for (int i = 0; i < bones.Count<int>(); i += 2)
                             {
                                 liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
+
+                                if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
 
                                 liner.startWidth = 0.025f;
                                 liner.endWidth = 0.025f;
@@ -1257,6 +1263,8 @@ namespace iiMenu.Mods
                         for (int i = 0; i < bones.Count<int>(); i += 2)
                         {
                             liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
+
+                            if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
 
                             liner.startWidth = 0.025f;
                             liner.endWidth = 0.025f;
@@ -1316,6 +1324,8 @@ namespace iiMenu.Mods
                     for (int i = 0; i < bones.Count<int>(); i += 2)
                     {
                         liner = vrrig.mainSkin.bones[bones[i]].gameObject.GetOrAddComponent<LineRenderer>();
+
+                        if (GetIndex("Hidden on Camera").enabled) { liner.gameObject.layer = 19; }
 
                         liner.startWidth = 0.025f;
                         liner.endWidth = 0.025f;
