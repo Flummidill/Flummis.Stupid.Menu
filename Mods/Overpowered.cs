@@ -1747,6 +1747,8 @@ namespace iiMenu.Mods
         {
             if (selectedObjectName != null)
                 SpamObjectGun(Overpowered.ObjectByName[selectedObjectName]);
+            else
+                NotificationManager.SendNotification("<color=grey>[</color><color=red>ERROR</color><color=grey>]</color> No GR Object Selected.", 1000);
         }
 
         public static Dictionary<string, bool[][]> Letters = new Dictionary<string, bool[][]> {
