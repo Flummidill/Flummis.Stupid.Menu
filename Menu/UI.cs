@@ -49,6 +49,9 @@ namespace iiMenu.Menu
             if (File.Exists(hideGUIPath))
                 isOpen = false;
 
+            if (File.Exists (onlyCodeGUIPath))
+                isOpenOnlyCode = true;
+
             uiPrefab = LoadObject<GameObject>("UI");
 
             Transform canvas = uiPrefab.transform.Find("Canvas");
@@ -120,6 +123,7 @@ namespace iiMenu.Menu
         }
 
         private bool isOpen = true;
+        private bool isOpenOnlyCode = false;
 
         private GameObject uiPrefab;
 
@@ -137,22 +141,64 @@ namespace iiMenu.Menu
         private List<TextMeshProUGUI> textObjects;
         private List<Image> imageObjects = new List<Image>();
 
-        private bool wasKeyboardCondition;
         private float uiUpdateDelay;
+
+        private void setGuiState(bool isActive)
+        {
+            Transform canvas = uiPrefab.transform.Find("Canvas");
+
+            uiPrefab.SetActive(true);
+
+            versionLabel.enabled = isActive;
+            arraylist.enabled = isActive;
+            watermark.enabled = isActive;
+
+            textInput.enabled = isActive;
+            r.enabled = isActive;
+            g.enabled = isActive;
+            b.enabled = isActive;
+            controlBackground.enabled = isActive;
+
+            canvas.Find("ControlUI/TextInput/Text Area/Text").GetComponent<TextMeshProUGUI>().enabled = isActive;
+            canvas.Find("ControlUI/R/Text Area/Text").GetComponent<TextMeshProUGUI>().enabled = isActive;
+            canvas.Find("ControlUI/G/Text Area/Text").GetComponent<TextMeshProUGUI>().enabled = isActive;
+            canvas.Find("ControlUI/B/Text Area/Text").GetComponent<TextMeshProUGUI>().enabled = isActive;
+            canvas.Find("ControlUI/QueueButton/Text").GetComponent<TextMeshProUGUI>().enabled = isActive;
+            canvas.Find("ControlUI/JoinButton/Text").GetComponent<TextMeshProUGUI>().enabled = isActive;
+            canvas.Find("ControlUI/ColorButton/Text").GetComponent<TextMeshProUGUI>().enabled = isActive;
+            canvas.Find("ControlUI/NameButton/Text").GetComponent<TextMeshProUGUI>().enabled = isActive;
+
+            canvas.Find("ControlUI/TextInput").GetComponent<Image>().enabled = isActive;
+            canvas.Find("ControlUI/R").GetComponent<Image>().enabled = isActive;
+            canvas.Find("ControlUI/G").GetComponent<Image>().enabled = isActive;
+            canvas.Find("ControlUI/B").GetComponent<Image>().enabled = isActive;
+            canvas.Find("ControlUI/QueueButton").GetComponent<Image>().enabled = isActive;
+            canvas.Find("ControlUI/JoinButton").GetComponent<Image>().enabled = isActive;
+            canvas.Find("ControlUI/ColorButton").GetComponent<Image>().enabled = isActive;
+            canvas.Find("ControlUI/NameButton").GetComponent<Image>().enabled = isActive;
+        }
 
         private void Update()
         {
-            bool isKeyboardCondition = UnityInput.Current.GetKey(KeyCode.Backslash);
-
-            if (isKeyboardCondition && !wasKeyboardCondition)
-                ToggleGUI();
-            
-            wasKeyboardCondition = isKeyboardCondition;
-
-            if (isOpen)
+            if (isOpenOnlyCode)
             {
-                uiPrefab.SetActive(true);
-                
+                setGuiState(false);
+
+                Color guiColor = Buttons.GetIndex("Swap GUI Colors").enabled
+                ? textColors[1].GetCurrentColor()
+                : backgroundColor.GetCurrentColor();
+
+                roomStatus.color = guiColor;
+                roomStatus.SafeSetFont(activeFont);
+                roomStatus.SafeSetFontStyle(activeFontStyle);
+
+                roomStatus.SafeSetText(FollowMenuSettings(!PhotonNetwork.InRoom ? "Not connected to room" : "Connected to room ") +
+                   (PhotonNetwork.InRoom ? PhotonNetwork.CurrentRoom.Name : ""));
+            }
+            else if (isOpen)
+            {
+                setGuiState(true);
+
                 Color guiColor = Buttons.GetIndex("Swap GUI Colors").enabled
                     ? textColors[1].GetCurrentColor()
                     : backgroundColor.GetCurrentColor();
@@ -204,7 +250,7 @@ namespace iiMenu.Menu
 
                         watermark.sprite = sprite;
                     }
-                   
+
                     if (flipArraylist)
                     {
                         controlBackground.rectTransform.anchoredPosition = new Vector2(10f, -10f);
@@ -276,25 +322,58 @@ namespace iiMenu.Menu
 
                     arraylist.SafeSetText(modListText);
                 }
-            } else
-                uiPrefab.SetActive(false);
-        }
-
-        private readonly string hideGUIPath = $"{PluginInfo.BaseDirectory}/iiMenu_HideGUI.txt";
-        private void ToggleGUI()
-        {
-            isOpen = !isOpen;
-            if (isOpen)
-            {
-                if (File.Exists(hideGUIPath))
-                    File.Delete(hideGUIPath);
             }
             else
             {
-                if (!File.Exists(hideGUIPath))
-                    File.WriteAllText(hideGUIPath, "Text file generated with ii's Stupid Menu");
+                uiPrefab.SetActive(false);
             }
+        }
 
+        private readonly string hideGUIPath = $"{PluginInfo.BaseDirectory}/iiMenu_HideGUI.txt";
+        private readonly string onlyCodeGUIPath = $"{PluginInfo.BaseDirectory}/iiMenu_OnlyCodeGUI.txt";
+
+        public void EnableGUI()
+        {
+            isOpen = true;
+
+            if (File.Exists(hideGUIPath))
+                File.Delete(hideGUIPath);
+
+            CloseMessage();
+        }
+
+        public void DisableGUI()
+        {
+            isOpen = false;
+
+            if (!File.Exists(hideGUIPath))
+                File.WriteAllText(hideGUIPath, "Text file generated with ii's Stupid Menu");
+
+            CloseMessage();
+        }
+
+        public void EnableOnlyCodeGUI()
+        {
+            isOpenOnlyCode = true;
+
+            if (!File.Exists(onlyCodeGUIPath))
+                File.WriteAllText(onlyCodeGUIPath, "Text file generated with ii's Stupid Menu");
+
+            CloseMessage();
+        }
+
+        public void DisableOnlyCodeGUI()
+        {
+            isOpenOnlyCode = false;
+
+            if (File.Exists(onlyCodeGUIPath))
+                File.Delete(onlyCodeGUIPath);
+
+            CloseMessage();
+        }
+
+        public void CloseMessage()
+        {
             GameObject closeMessage = uiPrefab.transform?.Find("Canvas")?.Find("HideMessage")?.gameObject;
             closeMessage?.SetActive(false);
         }

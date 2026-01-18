@@ -50,7 +50,8 @@ namespace iiMenu.Mods
         {
             if (!Buttons.GetIndex("Anti Report <color=grey>[</color><color=green>Disconnect</color><color=grey>]</color>").enabled) AntiReportDisconnect();
             if (!Buttons.GetIndex("Anti Report <color=grey>[</color><color=green>Anti Cheat</color><color=grey>]</color>").enabled) AntiCheatPatches.SendReportPatch.AntiACReport = true;
-            if (!Buttons.GetIndex("Anti Moderator").enabled) AntiModerator();
+            if (!Buttons.GetIndex("Anti Moderator <color=grey>[</color><color=green>Disconnect</color><color=grey>]</color>").enabled) AntiModeratorDisconnect();
+            if (!Buttons.GetIndex("Anti Moderator <color=grey>[</color><color=green>Notify</color><color=grey>]</color>").enabled) AntiModeratorNotify();
             if (!Buttons.GetIndex("Anti Report <color=grey>[</color><color=green>Oculus</color><color=grey>]</color>").enabled && !antiOculusReportHooked) { antiOculusReportHooked = true; EnableAntiOculusReport(); }
         }
 
@@ -430,7 +431,7 @@ namespace iiMenu.Mods
         public static void AntiReportFRT(Player subject) =>
             reportRig = subject.VRRig();
 
-		public static void AntiModerator()
+		public static void AntiModeratorDisconnect()
         {
             foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isOfflineVRRig && vrrig.rawCosmeticString.Contains("LBAAK") || vrrig.rawCosmeticString.Contains("LBAAD") || vrrig.rawCosmeticString.Contains("LMAPY")))
             {
@@ -474,7 +475,55 @@ namespace iiMenu.Mods
             }
         }
 
-        public static void AntiContentCreator()
+        public static void AntiModeratorNotify()
+        {
+            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isOfflineVRRig && vrrig.rawCosmeticString.Contains("LBAAK") || vrrig.rawCosmeticString.Contains("LBAAD") || vrrig.rawCosmeticString.Contains("LMAPY")))
+            {
+                try
+                {
+
+                    VRRig plr = vrrig;
+                    NetPlayer player = GetPlayerFromVRRig(plr);
+                    if (player != null)
+                    {
+                        string text = "Room: " + PhotonNetwork.CurrentRoom.Name;
+                        float r = 0f;
+                        float g = 0f;
+                        float b = 0f;
+                        try
+                        {
+
+                            r = plr.playerColor.r * 255;
+                            g = plr.playerColor.r * 255;
+                            b = plr.playerColor.r * 255;
+                        }
+                        catch { LogManager.Log("Failed to log colors, rig most likely nonexistent"); }
+
+                        try
+                        {
+                            text += "\n====================================\n";
+                            text += string.Concat("Player Name: \"", player.NickName, "\", Player ID: \"", player.UserId, "\", Player Color: (R: ", r.ToString(), ", G: ", g.ToString(), ", B: ", b.ToString(), ")");
+                        }
+                        catch { LogManager.Log("Failed to log player"); }
+
+                        text += "\n====================================\n";
+                        text += "Text file generated with ii's Stupid Menu";
+                        string fileName = $"{PluginInfo.BaseDirectory}/" + player.NickName + " - Anti Moderator.txt";
+
+                        File.WriteAllText(fileName, text);
+                    }
+                }
+                catch { }
+
+                NotificationManager.SendNotification($"<color=grey>[</color><color=purple>ANTI-MODERATOR</color><color=grey>]</color> {vrrig.GetName()} is a moderator. Their player ID and room code have been saved to a file.");
+                NotificationManager.SendNotification($"<color=grey>[</color><color=purple>ANTI-MODERATOR</color><color=grey>]</color> {vrrig.GetName()} is a moderator. Their player ID and room code have been saved to a file.");
+                NotificationManager.SendNotification($"<color=grey>[</color><color=purple>ANTI-MODERATOR</color><color=grey>]</color> {vrrig.GetName()} is a moderator. Their player ID and room code have been saved to a file.");
+                NotificationManager.SendNotification($"<color=grey>[</color><color=purple>ANTI-MODERATOR</color><color=grey>]</color> {vrrig.GetName()} is a moderator. Their player ID and room code have been saved to a file.");
+                NotificationManager.SendNotification($"<color=grey>[</color><color=purple>ANTI-MODERATOR</color><color=grey>]</color> {vrrig.GetName()} is a moderator. Their player ID and room code have been saved to a file.");
+            }
+        }
+
+        public static void AntiContentCreatorDisconnect()
         {
             foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isOfflineVRRig && Visuals.specialCosmetics.Keys.Any(x => vrrig.rawCosmeticString.Contains(x))))
             {
@@ -515,6 +564,54 @@ namespace iiMenu.Mods
                 catch { }
                 NetworkSystem.Instance.ReturnToSinglePlayer();
                 NotificationManager.SendNotification($"<color=grey>[</color><color=purple>ANTI-CONTENT CREATOR</color><color=grey>]</color> {vrrig.GetName()} is a content creator, you have been disconnected. Their player ID and room code have been saved to a file.");
+            }
+        }
+
+        public static void AntiContentCreatorNotify()
+        {
+            foreach (var vrrig in GorillaParent.instance.vrrigs.Where(vrrig => !vrrig.isOfflineVRRig && Visuals.specialCosmetics.Keys.Any(x => vrrig.rawCosmeticString.Contains(x))))
+            {
+                try
+                {
+
+                    VRRig plr = vrrig;
+                    NetPlayer player = GetPlayerFromVRRig(plr);
+                    if (player != null)
+                    {
+                        string text = "Room: " + PhotonNetwork.CurrentRoom.Name;
+                        float r = 0f;
+                        float g = 0f;
+                        float b = 0f;
+                        try
+                        {
+
+                            r = plr.playerColor.r * 255;
+                            g = plr.playerColor.r * 255;
+                            b = plr.playerColor.r * 255;
+                        }
+                        catch { LogManager.Log("Failed to log colors, rig most likely nonexistent"); }
+
+                        try
+                        {
+                            text += "\n====================================\n";
+                            text += string.Concat("Player Name: \"", player.NickName, "\", Player ID: \"", player.UserId, "\", Player Color: (R: ", r.ToString(), ", G: ", g.ToString(), ", B: ", b.ToString(), ")");
+                        }
+                        catch { LogManager.Log("Failed to log player"); }
+
+                        text += "\n====================================\n";
+                        text += "Text file generated with ii's Stupid Menu";
+                        string fileName = $"{PluginInfo.BaseDirectory}/" + player.NickName + " - Anti Content Creator.txt";
+
+                        File.WriteAllText(fileName, text);
+                    }
+                }
+                catch { }
+
+                NotificationManager.SendNotification($"<color=grey>[</color><color=purple>ANTI-CONTENT CREATOR</color><color=grey>]</color> {vrrig.GetName()} is a content creator. Their player ID and room code have been saved to a file.");
+                NotificationManager.SendNotification($"<color=grey>[</color><color=purple>ANTI-CONTENT CREATOR</color><color=grey>]</color> {vrrig.GetName()} is a content creator. Their player ID and room code have been saved to a file.");
+                NotificationManager.SendNotification($"<color=grey>[</color><color=purple>ANTI-CONTENT CREATOR</color><color=grey>]</color> {vrrig.GetName()} is a content creator. Their player ID and room code have been saved to a file.");
+                NotificationManager.SendNotification($"<color=grey>[</color><color=purple>ANTI-CONTENT CREATOR</color><color=grey>]</color> {vrrig.GetName()} is a content creator. Their player ID and room code have been saved to a file.");
+                NotificationManager.SendNotification($"<color=grey>[</color><color=purple>ANTI-CONTENT CREATOR</color><color=grey>]</color> {vrrig.GetName()} is a content creator. Their player ID and room code have been saved to a file.");
             }
         }
 

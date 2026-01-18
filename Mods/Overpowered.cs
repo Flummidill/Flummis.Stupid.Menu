@@ -27,6 +27,7 @@ using GorillaLocomotion.Gameplay;
 using GorillaNetworking;
 using GorillaTagScripts;
 using GorillaTagScripts.VirtualStumpCustomMaps;
+using iiMenu.Classes.Menu;
 using iiMenu.Extensions;
 using iiMenu.Managers;
 using iiMenu.Menu;
@@ -1712,6 +1713,40 @@ namespace iiMenu.Mods
         {
             int[] objectIds = ObjectByName.Select(x => x.Value).ToArray();
             CreateItem(RpcTarget.All, objectIds[Random.Range(0, objectIds.Length)], VRRig.LocalRig.transform.position + Vector3.up * 3f, Quaternion.identity, RandomVector3(15f), Vector3.zero);
+        }
+
+        public static String selectedObjectName = null;
+
+        public static void LoadSelectObject()
+        {
+            currentCategoryName = "Select GR Object";
+
+            List<ButtonInfo> objectButtons = new List<ButtonInfo>();
+
+            objectButtons.Add(new ButtonInfo { buttonText = "Exit Select GR Object", method = () => currentCategoryName = "Fun Mods", isTogglable = false, toolTip = "Returns you back to the fun mods." });
+
+            foreach (var obj in Overpowered.ObjectByName)
+            {
+                string objectName = obj.Key;
+
+                objectButtons.Add(new ButtonInfo
+                {
+                    buttonText = objectName,
+                    overlapText = objectName,
+                    method = () => Overpowered.selectedObjectName = objectName,
+                    isTogglable = false,
+                    toolTip = $"Spawns {objectName} at wherever your hand desires."
+                });
+            }
+
+            Buttons.buttons[46] = objectButtons.ToArray();
+        }
+
+
+        public static void SpamSelectedObjectGun()
+        {
+            if (selectedObjectName != null)
+                SpamObjectGun(Overpowered.ObjectByName[selectedObjectName]);
         }
 
         public static Dictionary<string, bool[][]> Letters = new Dictionary<string, bool[][]> {
@@ -3922,7 +3957,7 @@ namespace iiMenu.Mods
 
                 snowballDelay = Time.time + (SnowballSpawnDelay * 5f);
             }
-        }
+            }
 
         public static void SnowballWall()
         {
@@ -3936,7 +3971,7 @@ namespace iiMenu.Mods
                     velocity = hit.point - GorillaTagger.Instance.rightHandTransform.transform.position;
                     velocity.Normalize();
                     velocity *= ShootStrength * 2f;
-                }
+        }
 
                 for (int x = -2; x <= 2; x++)
                 {

@@ -104,6 +104,9 @@ namespace iiMenu.Menu
             new[] { // Menu Settings [2]
                 new ButtonInfo { buttonText = "Exit Menu Settings", method =() => currentCategoryName = "Settings", isTogglable = false, toolTip = "Returns you back to the settings menu."},
 
+                new ButtonInfo { buttonText = "Hide GUI on PC", enableMethod = UI.Instance.DisableGUI, disableMethod = UI.Instance.EnableGUI, toolTip = "Hides the GUI on the PC Screen."},
+                new ButtonInfo { buttonText = "Only Room Code on PC", enableMethod = UI.Instance.EnableOnlyCodeGUI, disableMethod = UI.Instance.DisableOnlyCodeGUI, toolTip = "Only shows the Room Code on the PC Screen."},
+
                 new ButtonInfo { buttonText = "Right Hand", enableMethod = Settings.RightHand, disableMethod = Settings.LeftHand, toolTip = "Puts the menu on your right hand."},
                 new ButtonInfo { buttonText = "Both Hands", enableMethod =() => bothHands = true, disableMethod =() => bothHands = false, toolTip = "Puts the menu on your both of your hands."},
 
@@ -547,8 +550,10 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "Anti Name Ban", enableMethod =() => BanPatches.enabled = true, method = Safety.AntiNameBan, disableMethod =() => BanPatches.enabled = false, toolTip = "Prevents you from getting banned for setting your name to bad things."},
                 new ButtonInfo { buttonText = "Anti Stump Kick", enableMethod =() => GroupPatch.enabled = true, disableMethod =() => GroupPatch.enabled = false, toolTip = "Stops people from group kicking you."},
                 new ButtonInfo { buttonText = "Auto Clear Cache", method = Safety.AutoClearCache, toolTip = "Automatically clears your game's cache (garbage collector) every minute to prevent memory leaks."},
-                new ButtonInfo { buttonText = "Anti Moderator", method = Safety.AntiModerator, toolTip = "When someone with the stick joins, you get disconnected and their player ID and room code gets saved to a file."},
-                new ButtonInfo { buttonText = "Anti Content Creator", method = Safety.AntiContentCreator, toolTip = "When a content creator joins, you get disconnected and their player ID and room code gets saved to a file."},
+                new ButtonInfo { buttonText = "Anti Moderator <color=grey>[</color><color=green>Disconnect</color><color=grey>]</color>", method = Safety.AntiModeratorDisconnect, toolTip = "When someone with the stick joins, you get disconnected and their player ID and room code gets saved to a file."},
+                new ButtonInfo { buttonText = "Anti Moderator <color=grey>[</color><color=green>Notify</color><color=grey>]</color>", method = Safety.AntiModeratorNotify, toolTip = "Tells you, when someone with the stick joins."},
+                new ButtonInfo { buttonText = "Anti Content Creator <color=grey>[</color><color=green>Disconnect</color><color=grey>]</color>", method = Safety.AntiContentCreatorDisconnect, toolTip = "When a content creator joins, you get disconnected and their player ID and room code gets saved to a file."},
+                new ButtonInfo { buttonText = "Anti Content Creator <color=grey>[</color><color=green>Notify</color><color=grey>]</color>", method = Safety.AntiContentCreatorNotify, toolTip = "Tells you, when a content creator joins."},
                 new ButtonInfo { buttonText = "Cosmetic Notifications", method = Safety.CosmeticNotifications, toolTip = "Sends you a notification if there is a Finger Painter, Illustrator, Administrator, Stick, Forest Guide, or Another Axiom Creator in your room."},
                 new ButtonInfo { buttonText = "Steam Detector", method = Important.SteamDetector, toolTip = "Detects when a player in your room is on Steam."},
 
@@ -742,7 +747,7 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "Freeze Rig Limbs", method = Movement.FreezeRigLimbs, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Makes your hands and head freeze on your rig, but not your body."},
                 new ButtonInfo { buttonText = "Freeze Rig Body", method = Movement.FreezeRigBody, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Makes your body freeze on your rig, but not your hands and head."},
                 new ButtonInfo { buttonText = "Freeze Rig", method = Movement.FreezeRig, disableMethod =() => { VRRig.LocalRig.enabled = true; Movement.startPosition = null; }, toolTip = "Makes your body freeze on your rig, but not your hands and head."},
-                
+
                 new ButtonInfo { buttonText = "Paralyze Rig", method = Movement.ParalyzeRig, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Removes your arms from your rig. Credits to Expansion for the idea."},
                 new ButtonInfo { buttonText = "Chicken Rig", method = Movement.ChickenRig, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Makes your rig look like a chicken."},
                 new ButtonInfo { buttonText = "Amputate Rig", method = Movement.AmputateRig, disableMethod =() => VRRig.LocalRig.enabled = true, toolTip = "Removes all of your limbs from your rig. Credits to Expansion for the idea."},
@@ -826,7 +831,7 @@ namespace iiMenu.Menu
 
                 new ButtonInfo { buttonText = "No Tag Limit", method =() => GorillaTagger.Instance.maxTagDistance = float.MaxValue, disableMethod =() => GorillaTagger.Instance.maxTagDistance = 1.2f, toolTip = "Removes the distance check when tagging players."},
                 new ButtonInfo { buttonText = "Tag Lag Detector", method = Important.TagLagDetector, toolTip = "Detects when the master client is not currently allowing tag requests."},
-                
+
                 new ButtonInfo { buttonText = "Fake Lag", method = Movement.FakeLag, disableMethod =() => { SerializePatch.OverrideSerialization = null; PlayerSerializePatch.delay = null; }, toolTip = "Forces your ping to be high."},
                 new ButtonInfo { buttonText = "Lag Range", method = Movement.LagRange, toolTip = "Dynamically changes how much your rig updates depending on how close you are to others."},
                 new ButtonInfo { buttonText = "Blink", method = Movement.Blink, disableMethod = Movement.DisableBlink, toolTip = "Stops your client from sending and receiving player update packets."},
@@ -1336,6 +1341,9 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "Entity Aura", method = Overpowered.EntityAura, toolTip = "Creates a ball of random entities around you."},
                 new ButtonInfo { buttonText = "Entity Fountain", method = Overpowered.EntityFountain, toolTip = "Spurts random entities out of your head like a fountain."},
 
+                new ButtonInfo { buttonText = "Select GR Object", method = Overpowered.LoadSelectObject, isTogglable = false, toolTip = "Select which Ghost Reactor Object you want to Spawn."},
+                new ButtonInfo { buttonText = "Selected Object Gun", method = Overpowered.SpamSelectedObjectGun, toolTip = "Spawn your selected GR Object at wherever your hand desires."},
+
                 new ButtonInfo { buttonText = "Ghost Reactor Text Gun", enableMethod =() => PromptText("What text would you like to show?", () => Overpowered.textToRender = keyboardInput.ToUpper(), null, "Done", "Cancel"), method = Overpowered.GhostReactorTextGun, toolTip = "Spawns entities in the shape of the text you desire in the ghost reactor."},
 
                 new ButtonInfo { buttonText = "Destroy Entity Gun", method = Overpowered.DestroyEntityGun, toolTip = "Destroys any entity which your hand desires."},
@@ -1717,7 +1725,7 @@ namespace iiMenu.Menu
 
                 new ButtonInfo { buttonText = "Snowball Rain <color=grey>[</color><color=green>T</color><color=grey>]</color>", method = Overpowered.SnowballRain, toolTip = "Rains snowballs around you when holding <color=green>trigger</color>."},
                 new ButtonInfo { buttonText = "Snowball Hail <color=grey>[</color><color=green>T</color><color=grey>]</color>", method = Overpowered.SnowballHail, toolTip = "Hails snowballs around you when holding <color=green>trigger</color>."},
-                
+
                 new ButtonInfo { buttonText = "Snowball Fountain <color=grey>[</color><color=green>T</color><color=grey>]</color>", method = Overpowered.SnowballFountain, toolTip = "Fountains snowballs above you when holding <color=green>trigger</color>."},
                 new ButtonInfo { buttonText = "Snowball Orbit <color=grey>[</color><color=green>T</color><color=grey>]</color>", method = Overpowered.SnowballOrbit, toolTip = "Orbits snowballs around you when holding <color=green>trigger</color>."},
                 new ButtonInfo { buttonText = "Snowball Aura <color=grey>[</color><color=green>T</color><color=grey>]</color>", method = Overpowered.SnowballAura, toolTip = "Randomly spawns snowballs around you when holding <color=green>trigger</color>."},
@@ -2603,9 +2611,14 @@ namespace iiMenu.Menu
                 new ButtonInfo { buttonText = "Isolate Others", toolTip = "Allows you to still be seen when isolating players."}
             },
 
-            new[] // Achievements
+            new[] // Achievements [45]
             {
                 new ButtonInfo { buttonText = "Exit Achievements", method = () => currentCategoryName = "Main", isTogglable = false, toolTip = "Returns you back to the main page." }
+            },
+
+            new[] // Select GR Object [46]
+            {
+                new ButtonInfo { buttonText = "Exit Select GR Object", method =() => currentCategoryName = "Fun Mods", isTogglable = false, toolTip = "Returns you back to the fun mods."}
             }
         };
 
@@ -2655,7 +2668,8 @@ namespace iiMenu.Menu
             "Macros",
             "Detected Mods",
             "Detected Settings",
-            "Achievements"
+            "Achievements",
+            "Select GR Object"
         };
 
         private static readonly Dictionary<string, (int Category, int Index)> cacheGetIndex = new Dictionary<string, (int Category, int Index)>(); // Looping through 800 elements is not a light task :/
