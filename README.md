@@ -3,7 +3,7 @@
 
   My Modified Version of <b>ii's Stupid Menu!</b>
 
-  <a href="https://github.com/Flummidill/Flummis.Stupid.Menu/compare/176d190...v8.0.1">
+  <a href="https://github.com/Flummidill/Flummis.Stupid.Menu/compare/176d190...8.0.1">
     <img src="https://img.shields.io/badge/view-changelog-lime?style=for-the-badge"</img>
   </a>
 
