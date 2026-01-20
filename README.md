@@ -6,6 +6,6 @@
   </a>
 
   <a href="https://github.com/Flummidill/Flummis.Stupid.Menu/releases">
-    <img src="https://img.shields.io/github/downloads/Flummidill/Flummis.Stupid.Menu/Release12/Flummis_Stupid_Menu.dll?style=for-the-badge&label=Downloads&color=lime"</img>
+    <img src="https://img.shields.io/github/downloads/Flummidill/Flummis.Stupid.Menu/v5.6.1/Flummis_Stupid_Menu.dll?style=for-the-badge&label=Downloads&color=lime"</img>
   </a>
 </div>
